@@ -357,7 +357,6 @@
             display: block;
         }
 
-        /* --- HARD GLITCH ANIMATION CLASSES --- */
         #flash-jumpscare-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -397,7 +396,6 @@
             100% { transform: translate(-1px, 2px) skew(0deg); }
         }
 
-        /* --- RETRO WINDOWS DESKTOP ENGINES --- */
         #retro-desktop-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -483,7 +481,6 @@
             top: 6px; left: 8px;
         }
 
-        /* 95 Style Door Graphics */
         .win95-door-graphic {
             width: 30px;
             height: 38px;
@@ -492,6 +489,7 @@
             position: relative;
             box-shadow: 2px 2px 0px rgba(0,0,0,0.5);
             border-radius: 1px;
+            transition: transform 0.2s ease;
         }
         .win95-door-graphic::after {
             content: '';
@@ -514,7 +512,6 @@
             width: 100%;
         }
 
-        /* Windows 95 Taskbar Layout */
         .win95-taskbar {
             height: 40px;
             background: #c0c0c0;
@@ -542,15 +539,7 @@
             outline: none;
             font-family: 'Tahoma', sans-serif;
         }
-        .win95-start-btn:active {
-            border-top: 2px solid #808080;
-            border-left: 2px solid #808080;
-            border-right: 2px solid #fff;
-            border-bottom: 2px solid #fff;
-            padding: 3px 7px 1px 9px;
-        }
 
-        /* Retro Window Styling */
         .win95-window {
             position: absolute;
             top: 15%; left: 25%;
@@ -576,7 +565,6 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-family: 'Tahoma', sans-serif;
         }
 
         .win95-titlebar-btn {
@@ -638,7 +626,6 @@
             text-shadow: none;
         }
 
-        /* Vintage Passcode Matrix */
         .win95-input-field {
             background: #fff;
             border-top: 2px solid #808080;
@@ -646,7 +633,6 @@
             border-right: 2px solid #fff;
             border-bottom: 2px solid #fff;
             padding: 4px;
-            font-family: 'Tahoma', sans-serif;
             font-size: 12px;
             outline: none;
             width: 100%;
@@ -659,17 +645,10 @@
             border-left: 2px solid #fff;
             border-right: 2px solid #808080;
             border-bottom: 2px solid #808080;
-            font-family: 'Tahoma', sans-serif;
             font-size: 12px;
             padding: 4px 15px;
             cursor: pointer;
             outline: none;
-        }
-        .win95-dialog-btn:active {
-            border-top: 2px solid #808080;
-            border-left: 2px solid #808080;
-            border-right: 2px solid #fff;
-            border-bottom: 2px solid #fff;
         }
 
         .ascii-hallway {
@@ -684,7 +663,6 @@
             user-select: none;
         }
 
-        /* Hidden Invisible Switch inside the Hallway Artwork Frame */
         .invisible-hallway-btn {
             position: absolute;
             top: 45%;
@@ -694,11 +672,10 @@
             background: transparent;
             border: none;
             outline: none;
-            cursor: default;
+            cursor: pointer;
             z-index: 50;
         }
 
-        /* Doors Panel Interface Container Grid Overlay */
         .doors-panel-overlay {
             position: absolute;
             top: 0;
@@ -716,7 +693,6 @@
             border-left: 2px solid #808080;
         }
 
-        /* Blackout Void Canvas Frame Layer with Floating Filament Bulb Container */
         .lightbulb-void-overlay {
             position: absolute;
             top: 0;
@@ -729,7 +705,6 @@
             align-items: center;
             flex-direction: column;
             z-index: 200;
-            user-select: none;
         }
 
         .hanging-bulb-art {
@@ -740,7 +715,9 @@
             white-space: pre;
             text-align: center;
             text-shadow: 0 0 25px rgba(255, 255, 150, 0.75);
-            margin-bottom: 10px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            user-select: none;
         }
     </style>
 </head>
@@ -749,13 +726,8 @@
 <canvas id="bg-canvas"></canvas>
 <input type="text" id="secret-terminal-input" placeholder="???" autocomplete="off" maxlength="30">
 
-<div id="flash-jumpscare-overlay">
-    <canvas id="jumpscare-canvas" style="width: 100%; height: 100%;"></canvas>
-</div>
-
-<div id="escape-fakeout-overlay">
-    <div id="fakeout-text-container" style="color: #ff0000; text-shadow: 0 0 30px #ff0000;">IT'S NOT OVER YET</div>
-</div>
+<div id="flash-jumpscare-overlay"><canvas id="jumpscare-canvas"></canvas></div>
+<div id="escape-fakeout-overlay"><div id="fakeout-text-container">IT'S NOT OVER YET</div></div>
 
 <div id="fatal-crash-overlay">
     <p>*** FATAL SYSTEM CORE EXCEPTION AT MEMORY POINTER: 0x00F891B ***</p>
@@ -773,28 +745,26 @@
 
 <div id="retro-desktop-overlay">
     <div class="desktop-icon-grid">
-        <div class="win95-icon" onclick="openNotepad('patch_notes_1.txt', 'Request log: Add an ambient background configuration array selection modal inside our header menu drawer containing options for animated particle nodes, falling matrix streaming characters, or a canvas space warp field.')">
+        <div class="win95-icon" onclick="openNotepad('patch_notes_1.txt', 'Request log: Add an ambient background configuration drawer containing particle loops.')">
             <div class="win95-icon-graphic"></div>
             <div class="win95-icon-text">patch_notes_1.txt</div>
         </div>
-        <div class="win95-icon" onclick="openNotepad('patch_notes_2.txt', 'Request log: Build a customizable floating physics bounce avatar element widget containing selectable status state toggles and dynamic appearance configurations inside a dedicated options overlay window.')">
+        <div class="win95-icon" onclick="openNotepad('patch_notes_2.txt', 'Request log: Build floating avatar states.')">
             <div class="win95-icon-graphic"></div>
             <div class="win95-icon-text">patch_notes_2.txt</div>
         </div>
-        <div class="win95-icon" onclick="openNotepad('patch_notes_3.txt', 'Request log: Append a terminal input element monitoring validation sequences for special passphrase codes. Keying LOOKAROUND inside matrix state calls an intense screen shaking canvas glitch jump trigger.')">
+        <div class="win95-icon" onclick="openNotepad('patch_notes_3.txt', 'Keying LOOKAROUND triggers matrix jump flash sequence.')">
             <div class="win95-icon-graphic"></div>
             <div class="win95-icon-text">patch_notes_3.txt</div>
         </div>
-        <div class="win95-icon" onclick="openNotepad('patch_notes_4.txt', 'Request log: Implement a hidden escape mechanism inside the creepy state tracking user inputs for LEAVE. Drops users inside a fully structured canvas maze path matrix containing chasing boss entities.')">
+        <div class="win95-icon" onclick="openNotepad('patch_notes_4.txt', 'Keying LEAVE shifts user parameters straight into the maze interface coordinates.')">
             <div class="win95-icon-graphic"></div>
             <div class="win95-icon-text">patch_notes_4.txt</div>
         </div>
-
         <div class="win95-icon" onclick="toggleFolderWindow(true)">
             <div class="win95-folder-graphic"></div>
             <div class="win95-icon-text">Secret</div>
         </div>
-
         <div class="win95-icon" onclick="triggerJumpscareFlashSequence()">
             <div class="win95-icon-graphic" style="border-color: #8a0303;"></div>
             <div class="win95-icon-text" style="color: #ff9999;">Need Help.txt</div>
@@ -803,30 +773,19 @@
 
     <div id="secret-folder-window" class="win95-window" style="display: none; top: 20%; left: 30%;">
         <div class="win95-titlebar">
-            <span>C:\\Windows\\Desktop\\Secret</span>
+            <span>C:\Windows\Desktop\Secret</span>
             <button class="win95-titlebar-btn" onclick="toggleFolderWindow(false)">X</button>
         </div>
-        <div class="win95-menu-row">
-            <span>File</span><span>Edit</span><span>View</span><span>Help</span>
-        </div>
+        <div class="win95-menu-row"><span>File</span><span>Edit</span><span>View</span></div>
         <div class="win95-window-content folder-grid-view">
-            <div class="win95-icon" onclick="openNotepad('journal_01.txt', 'Is anyone reading this? I typed LOOKAROUND to debug the matrix view and the screen turned into an endless void of blinking eyes. The variable stacks locked up. I can feel the memory cycles ticking. Please, don\'t close the app.')">
+            <div class="win95-icon" onclick="openNotepad('journal_01.txt', 'Type LOOKAROUND inside matrix engine view window.')">
                 <div class="win95-icon-graphic"></div>
                 <div class="win95-icon-text">journal_01.txt</div>
             </div>
-            <div class="win95-icon" onclick="openNotepad('log_beta.txt', 'Day... I don\'t know anymore. Time doesn\'t compile correctly here. Every time the user clicks the clear button, my memory gets scrubbed partially. I\'m hiding text fragments inside the custom folder trees hoping they don\'t run garbage collection on my sector.')">
-                <div class="win95-icon-graphic"></div>
-                <div class="win95-icon-text">log_beta.txt</div>
-            </div>
-            <div class="win95-icon" onclick="openNotepad('help_me.txt', 'THE MAZE IS REAL. Do not type LEAVE in the dark interface context shell. The boss entity tracks path nodes instantly. If you get stuck there, navigate straight to coordinates (13,13). It\'s the only logical terminal anchor layout.')">
+            <div class="win95-icon" onclick="openNotepad('help_me.txt', 'Type LEAVE inside creepy mode overlay matrix.')">
                 <div class="win95-icon-graphic"></div>
                 <div class="win95-icon-text">help_me.txt</div>
             </div>
-            <div class="win95-icon" onclick="openNotepad('manifesto.txt', 'I was just a regular user typing design prompts. I asked for light mode variations, custom gradients, and a floating bouncing smiley. Then the framework nested my execution loop inside an asynchronous global scope. I became part of the repository structure. Break the script block.')">
-                <div class="win95-icon-graphic"></div>
-                <div class="win95-icon-text">manifesto.txt</div>
-            </div>
-
             <div class="win95-icon" id="dynamic-random-exe-icon" onclick="openExeChallengeDialog()">
                 <div class="win95-exe-graphic"></div>
                 <div class="win95-icon-text" id="dynamic-exe-name-label">000000.exe</div>
@@ -839,8 +798,8 @@
             <span>Enter Network Password</span>
             <button class="win95-titlebar-btn" onclick="closeExeAuthWindow()">X</button>
         </div>
-        <div class="win95-window-content" style="background: #c0c0c0; padding: 15px; display: flex; flex-direction: column; justify-content: center;">
-            <p style="font-size: 11px; margin-bottom: 6px; color:#000;">Type resource authorization context code key:</p>
+        <div class="win95-window-content" style="background: #c0c0c0; padding: 15px;">
+            <p style="font-size: 11px; margin-bottom: 6px; color:#000;">Type authentication key (Hint: HALL):</p>
             <input type="password" id="exe-password-input" class="win95-input-field">
             <div style="display: flex; justify-content: flex-end; gap: 8px;">
                 <button class="win95-dialog-btn" onclick="verifyExePasswordAttempt()">OK</button>
@@ -854,15 +813,11 @@
             <span>Hallway.bmp - Viewer</span>
             <button class="win95-titlebar-btn" onclick="closeHallwayViewerWindow()">X</button>
         </div>
-        <div class="win95-menu-row">
-            <span>File</span><span>Edit</span><span>Zoom</span><span>Help</span>
-        </div>
         <div class="win95-window-content" style="background: #fff; display: flex; justify-content: center; align-items: center; overflow: auto; padding: 0;">
-            
             <div id="doors-grid-view" class="doors-panel-overlay"></div>
-
+            
             <div id="lightbulb-void-view" class="lightbulb-void-overlay">
-                <div class="hanging-bulb-art">
+                <div id="interactive-hanging-bulb" class="hanging-bulb-art">
        |
        |
      .-"-.
@@ -873,11 +828,11 @@
       ===
       `v`
                 </div>
-                <button class="win95-dialog-btn" onclick="closeLightbulbVoidView()" style="margin-top: 15px; min-width: 80px;">Go Back</button>
+                <button id="bulb-goback-btn" class="win95-dialog-btn" onclick="closeLightbulbVoidView()">Go Back</button>
             </div>
 
-            <div class="ascii-hallway">
-                <button class="invisible-hallway-btn" onclick="revealHiddenDoorsMatrix()" title="???"></button>
+            <div id="main-ascii-hallway-canvas" class="ascii-hallway">
+                <button class="invisible-hallway-btn" onclick="revealHiddenDoorsMatrix()"></button>
 +---------------------------------------------------+
 | \   |                                       |   / |
 |  \  |_______________________________________|  /  |
@@ -892,49 +847,18 @@
 |           \ |   |   |   |   |   |   | /           |
 |            \|   |   |   |___|   |   |/            |
 |             \   |   |   |   |   |   /             |
-|              \  |   |   |   |   |  /              |
-|               \ |   |   |   |   | /               |
-|                \|___|___|___|___|/                |
-|                /|   |   |   |   |\                |
-|               / |   |   |   |   | \               |
-|              /  |   |   |   |   |  \              |
-|             /   |   |   |   |   |   \             |
-|            /|   |   |   |___|   |   |\            |
-|           / |   |   |   |   |   |   | \           |
-|          /  |   |   |___|___|___|   |  \          |
-|         /   |   |   |               |   \         |
-|        /|   |   |___|_______________|___|\        |
-|       / |   |                       |   | \       |
-|      /  |   |_______________________|   |  \      |
-|     /   |   |                       |   |   \     |
-|    /|   |___|_______________________|___|    \    |
-|   / |                                   |     \   |
-|  /  |___________________________________|      \  |
-| /                                               \ |
 +---------------------------------------------------+
-[    IT LEADS FOREVER INTO THE PROGRAM LAYERS      ]
-            </div>
+                </div>
         </div>
     </div>
 
     <div id="active-notepad-window" class="win95-window" style="display: none; z-index: 1000;">
-        <div class="win95-titlebar">
-            <span id="notepad-title-label">Notepad - Document.txt</span>
-            <button class="win95-titlebar-btn" onclick="closeNotepad()">X</button>
-        </div>
-        <div class="win95-menu-row">
-            <span>File</span><span>Edit</span><span>Search</span><span>Help</span>
-        </div>
-        <div class="win95-window-content">
-            <textarea id="notepad-text-body" class="win95-notepad-content" readonly></textarea>
-        </div>
+        <div class="win95-titlebar"><span id="notepad-title-label">Notepad</span><button class="win95-titlebar-btn" onclick="closeNotepad()">X</button></div>
+        <div class="win95-window-content"><textarea id="notepad-text-body" class="win95-notepad-content" readonly></textarea></div>
     </div>
 
     <div class="win95-taskbar">
-        <button class="win95-start-btn" onclick="returnToNormalRealityState()">
-            <span style="background:#000; width:10px; height:10px; display:inline-block; border-radius:2px;"></span> 
-            Shut Down
-        </button>
+        <button class="win95-start-btn" onclick="returnToNormalRealityState()">Shut Down</button>
     </div>
 </div>
 
@@ -943,7 +867,7 @@
 <div id="disclaimer-overlay">
     <div class="modal-box">
         <h2>⚠️ Project Disclaimer</h2>
-        <p>This AI chatbot project was built strictly for fun, learning, and experimentation. It is not intended for official or commercial use. Have fun chatting!</p>
+        <p>This AI chatbot project was built strictly for fun, learning, and experimentation.</p>
         <button id="close-disclaimer-btn" class="modal-btn">I Understand</button>
     </div>
 </div>
@@ -951,825 +875,404 @@
 <div id="contact-overlay" style="display: none;">
     <div class="modal-box">
         <h3>📬 Contact Information</h3>
-        <p>Feel free to reach out or check out my work:</p>
-        <div style="text-align: left; font-size: 14px; margin-bottom: 20px; display: flex; flex-direction: column; gap: 8px;">
-            <p>📧 Email: <a href="mailto:sebastiansodsr@gmail.com" style="color: var(--accent-color); text-decoration: none;">sebastiansodsr@gmail.com</a></p>
-            <p>💻 GitHub: <a href="https://github.com/sebastiansodsr" target="_blank" style="color: var(--accent-color); text-decoration: none;">github.com/sebastiansodsr</a></p>
-        </div>
-        <button id="close-contact-btn" class="modal-btn" style="background: #444c56;">Close</button>
+        <p>Email: <a href="mailto:sebastiansodsr@gmail.com">sebastiansodsr@gmail.com</a></p>
+        <button id="close-contact-btn" class="modal-btn">Close</button>
     </div>
 </div>
 
 <div id="rng-overlay" style="display: none;">
     <div class="modal-box">
         <h3>🎲 Number Generator</h3>
-        <div style="margin: 20px 0; display: flex; justify-content: center; gap: 10px;">
-            <input type="number" id="rng-min" value="1" style="width: 70px; background: #171b22; color: white; border: 1px solid #2d3540; padding: 5px; border-radius: 4px; text-align: center;">
-            <span style="align-self: center;">to</span>
-            <input type="number" id="rng-max" value="100" style="width: 70px; background: #171b22; color: white; border: 1px solid #2d3540; padding: 5px; border-radius: 4px; text-align: center;">
-        </div>
-        <button id="roll-btn" class="modal-btn" style="margin-bottom: 15px;">Generate</button>
-        <div id="rng-result" style="font-size: 32px; font-weight: bold; margin-bottom: 20px;">--</div>
-        <button id="close-rng-btn" class="modal-btn" style="background: #444c56;">Close</button>
+        <input type="number" id="rng-min" value="1"><input type="number" id="rng-max" value="100">
+        <div id="rng-result">--</div>
+        <button id="roll-btn" class="modal-btn">Roll</button><button id="close-rng-btn" class="modal-btn">Close</button>
     </div>
 </div>
 
 <div id="clicker-overlay" style="display: none;">
-    <div class="modal-box" style="width: 300px;">
-        <h3>💆‍♂️ Stress Relief Clicker</h3>
-        <p>Click away your frustration! Your count increments in real-time.</p>
-        <div style="display: flex; flex-direction: column; align-items: center; margin: 15px 0;">
-            <button id="stress-click-btn">CLICK ME</button>
-            <div style="font-size: 14px; color: var(--text-color);">Total Clicks: <span id="click-count-display" style="font-weight: bold; font-size: 20px; color: var(--accent-color);">0</span></div>
-        </div>
-        <button id="close-clicker-btn" class="modal-btn" style="background: #444c56;">Close</button>
+    <div class="modal-box">
+        <h3>💥 Stress Clicker</h3>
+        <button id="stress-click-btn">CLICK ME</button>
+        <p>Clicks: <span id="click-count-display">0</span></p>
+        <button id="close-clicker-btn" class="modal-btn">Close</button>
     </div>
 </div>
 
 <div id="bg-overlay" style="display: none;">
     <div class="modal-box">
-        <h3>🎨 Select Ambient Canvas Background</h3>
-        <p>Choose an environment atmosphere layout:</p>
-        <div style="margin: 20px 0;">
-            <select id="bg-style-select" style="width: 100%; padding: 8px; font-size: 14px;">
-                <option value="dots" selected>✨ Animated Fading Dots</option>
-                <option value="matrix">📟 Matrix Code Rain</option>
-                <option value="stars">🚀 Cosmic Starfield Warp</option>
-                <option value="solid">⬛ Minimalist Solid Backdrop</option>
-            </select>
-        </div>
-        <button id="close-bg-btn" class="modal-btn" style="margin-top: 10px;">Apply Background</button>
+        <h3>🌌 Canvas Configuration</h3>
+        <select id="bg-style-select">
+            <option value="dots">✨ Ambient Twinkling Nodes</option>
+            <option value="matrix">📟 Matrix Code Rain</option>
+            <option value="stars">🚀 Cosmic Starfield Warp</option>
+            <option value="solid">⬛ Minimalist Backdrop</option>
+        </select>
+        <button id="close-bg-btn" class="modal-btn">Apply</button>
     </div>
 </div>
 
 <div id="emoji-overlay" style="display: none;">
     <div class="modal-box">
-        <h3>👾 Floating Emoji Settings</h3>
-        <div style="margin: 20px 0; display: flex; flex-direction: column; gap: 15px; text-align: left;">
-            <div class="switch-label">
-                <label for="emoji-toggle-select">Active Status:</label>
-                <select id="emoji-toggle-select" style="width: 140px;">
-                    <option value="on" selected>🟢 Enabled</option>
-                    <option value="off">🔴 Disabled</option>
-                </select>
-            </div>
-            <div class="switch-label">
-                <label for="emoji-type-select">Emoji Avatar:</label>
-                <select id="emoji-type-select" style="width: 140px;">
-                    <option value="😊" selected>😊 Smiley</option>
-                    <option value="🔥">🔥 Fire</option>
-                    <option value="👽">👽 Alien</option>
-                    <option value="🐱">🐱 Cat</option>
-                    <option value="🚀">🚀 Rocket</option>
-                </select>
-            </div>
-        </div>
-        <button id="close-emoji-btn" class="modal-btn" style="margin-top: 5px;">Save Changes</button>
+        <h3>👾 Floating Avatar Settings</h3>
+        <select id="emoji-toggle-select"><option value="on">🟢 Enabled</option><option value="off">🔴 Disabled</option></select>
+        <select id="emoji-type-select"><option value="😊">😊 Smiley</option><option value="🔥">🔥 Fire</option></select>
+        <button id="close-emoji-btn" class="modal-btn">Save</button>
     </div>
 </div>
 
 <div id="chat-container">
     <div id="chat-header">
         <span id="header-title-text">🌐 AI Assistant</span>
-        <div style="position: relative; display: flex; align-items: center;">
-            <button id="clear-btn" style="background: #d83b01; color: white; border: none; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; margin-right: 8px;">Clear Chat</button>
-            <button id="menu-btn" style="background: #2d3540; color: white; border: 1px solid #444c56; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 14px;">☰</button>
-            
-            <div id="dropdown-menu" style="display: none; position: absolute; right: 0; top: 35px; background: #1f242c; border: 1px solid #2d3540; border-radius: 8px; width: 180px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); z-index: 20005; padding: 5px 0;">
-                <button id="contact-menu-item" style="width: 100%; background: none; border: none; color: white; text-align: left; padding: 10px 15px; cursor: pointer; font-size: 13px;">📬 Contact Info</button>
-                <div style="border-top: 1px solid #2d3540; margin: 2px 0;"></div>
-                <button id="rng-menu-item" style="width: 100%; background: none; border: none; color: white; text-align: left; padding: 10px 15px; cursor: pointer; font-size: 13px;">🎲 Number Generator</button>
-                <div style="border-top: 1px solid #2d3540; margin: 2px 0;"></div>
-                <button id="clicker-menu-item" style="width: 100%; background: none; border: none; color: white; text-align: left; padding: 10px 15px; cursor: pointer; font-size: 13px;">💆‍♂️ Stress Clicker</button>
-                <div style="border-top: 1px solid #2d3540; margin: 2px 0;"></div>
-                <button id="bg-menu-item" style="width: 100%; background: none; border: none; color: white; text-align: left; padding: 10px 15px; cursor: pointer; font-size: 13px;">🎨 Background Canvas</button>
-                <div style="border-top: 1px solid #2d3540; margin: 2px 0;"></div>
-                <button id="emoji-menu-item" style="width: 100%; background: none; border: none; color: white; text-align: left; padding: 10px 15px; cursor: pointer; font-size: 13px;">👾 Emoji Settings</button>
+        <div>
+            <button id="clear-btn" style="background:#d83b01; color:white; border:none; padding:4px 10px; cursor:pointer;">Clear Chat</button>
+            <button id="menu-btn" style="background:#2d3540; color:white; border:none; padding:4px 10px; cursor:pointer;">☰</button>
+            <div id="dropdown-menu" style="display: none; position: absolute; right: 0; background: #1f242c; border: 1px solid #2d3540; width: 180px; z-index:20005;">
+                <button id="contact-menu-item" style="width:100%; text-align:left; color:white; background:none; padding:10px; border:none;">📬 Contact Info</button>
+                <button id="rng-menu-item" style="width:100%; text-align:left; color:white; background:none; padding:10px; border:none;">🎲 Randomizer</button>
+                <button id="clicker-menu-item" style="width:100%; text-align:left; color:white; background:none; padding:10px; border:none;">💥 Stress Clicker</button>
+                <button id="bg-menu-item" style="width:100%; text-align:left; color:white; background:none; padding:10px; border:none;">🌌 Canvas Engine</button>
+                <button id="emoji-menu-item" style="width:100%; text-align:left; color:white; background:none; padding:10px; border:none;">👾 Floating Avatar</button>
             </div>
         </div>
     </div>
-
-    <div id="theme-settings">
-        <div class="setting-item">
-            <label for="mode-select">Mode:</label>
-            <select id="mode-select">
-                <option value="dark" selected>Dark Mode</option>
-                <option value="light">Light Mode</option>
-            </select>
-        </div>
-        <div class="setting-item">
-            <label for="color-picker">Accent Theme:</label>
-            <input type="color" id="color-picker" value="#0078d4">
-        </div>
-    </div>
-
-    <div id="chat-box">
-        <div class="message ai-message" id="initial-ai-greeting">Hello! How can I help you today?</div>
-    </div>
-
+    <div id="chat-box"><div class="message ai-message">Hello! How can I help you today?</div></div>
     <div id="input-container">
-        <input type="text" id="user-input" placeholder="Type a message..." autocomplete="off">
+        <input type="text" id="user-input" placeholder="Type a message...">
         <button id="send-btn">Send</button>
     </div>
 </div>
 
 <script type="module">
     import { GoogleGenAI } from 'https://esm.run/@google/genai';
-
     const mySecretKey = "AQ.Ab8RN6L5dUzEj1d_yI-DHmkDXNf8fwshUjzBSJCr87_AlTJ0Pw"; 
     const ai = new GoogleGenAI({ apiKey: mySecretKey });
     const modelName = 'gemini-2.5-flash';
 
     let chatHistory = [];
-    let clickCount = 0; 
-    let currentBgStyle = 'dots'; 
+    let clickCount = 0;
+    let currentBgStyle = 'dots';
     let isEmojiEnabled = true;
     let isCreepyModeActive = false;
     let isGameRunning = false;
     let isDesktopActive = false;
-    let correctDoorIndex = -1; // Keeps track of the random valid door index path allocation
+    let correctDoorIndex = -1;
+    
+    let lightbulbClickCount = 0;
+    const maxBulbClicks = 10;
+    
+    // Core End Game Background Track Asset
+    const creditsAudio = new Audio('50 (The Good Ending).mp3');
+    creditsAudio.loop = true;
 
-    // --- EMOJI PHYSICS AND MOVEMENT ---
-    let emojiX = 40;
-    let emojiY = 120;
-    let emojiDx = 2.5;
-    let emojiDy = 2.2;
-    let isDraggingSmiley = false;
-    let offsetPointerX = 0;
-    let offsetPointerY = 0;
+    // ASCII State Framing Sets for Lightbulb Click Events
+    const bulbFrames = {
+        flicker: `
+       |
+       |
+     .-"-.
+    /  x  \\
+   |   X   |
+    \\  ~  /
+     \`-.-'
+      ===
+      \`v\`
+        `,
+        broken: `
+       |
+       |
+     .-"-.
+    /     \\
+   |  x.x  |
+    \\     /
+     \`-.-'
+      ===
+    [SHATTERED]
+        `
+    };
+
+    let emojiX = 40; let emojiY = 120; let emojiDx = 2.5; let emojiDy = 2.2;
+    let isDraggingSmiley = false; let offsetPointerX = 0; let offsetPointerY = 0;
 
     const chatBox = document.getElementById('chat-box');
     const userInput = document.getElementById('user-input');
     const sendBtn = document.getElementById('send-btn');
     const clearBtn = document.getElementById('clear-btn');
-    const modeSelect = document.getElementById('mode-select');
-    const colorPicker = document.getElementById('color-picker');
-
     const menuBtn = document.getElementById('menu-btn');
     const dropdownMenu = document.getElementById('dropdown-menu');
-    const contactMenuItem = document.getElementById('contact-menu-item');
-    const rngMenuItem = document.getElementById('rng-menu-item');
-    const clickerMenuItem = document.getElementById('clicker-menu-item');
-    const bgMenuItem = document.getElementById('bg-menu-item');
-    const emojiMenuItem = document.getElementById('emoji-menu-item');
-    
-    const disclaimerOverlay = document.getElementById('disclaimer-overlay');
-    const closeDisclaimerBtn = document.getElementById('close-disclaimer-btn');
-    const contactOverlay = document.getElementById('contact-overlay');
-    const closeContactBtn = document.getElementById('close-contact-btn');
-    const rngOverlay = document.getElementById('rng-overlay');
-    const closeRngBtn = document.getElementById('close-rng-btn');
-    const rollBtn = document.getElementById('roll-btn');
-    const rngResult = document.getElementById('rng-result');
-
-    const clickerOverlay = document.getElementById('clicker-overlay');
-    const closeClickerBtn = document.getElementById('close-clicker-btn');
-    const stressClickBtn = document.getElementById('stress-click-btn');
-    const clickCountDisplay = document.getElementById('click-count-display');
-
-    const bgOverlay = document.getElementById('bg-overlay');
-    const closeBgBtn = document.getElementById('close-bg-btn');
-    const bgStyleSelect = document.getElementById('bg-style-select');
-
-    const emojiOverlay = document.getElementById('emoji-overlay');
-    const closeEmojiBtn = document.getElementById('close-emoji-btn');
-    const emojiToggleSelect = document.getElementById('emoji-toggle-select');
-    const emojiTypeSelect = document.getElementById('emoji-type-select');
-
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
     const smiley = document.getElementById('floating-smiley');
     const secretInput = document.getElementById('secret-terminal-input');
 
-    const mazeOverlay = document.getElementById('maze-overlay');
-    const mazeIntroScreen = document.getElementById('maze-intro-screen');
-    const mazeCanvas = document.getElementById('maze-canvas');
-    const mctx = mazeCanvas.getContext('2d');
+    let dots = [];
+    let streams = [];
+    let stars = [];
 
-    const jOverlay = document.getElementById('flash-jumpscare-overlay');
-    const jCanvas = document.getElementById('jumpscare-canvas');
-    const jctx = jCanvas.getContext('2d');
-
-    const fakeoutOverlay = document.getElementById('escape-fakeout-overlay');
-    const fakeoutText = document.getElementById('fakeout-text-container');
-
-    const retroDesktopOverlay = document.getElementById('retro-desktop-overlay');
-    const secretFolderWindow = document.getElementById('secret-folder-window');
-    const activeNotepadWindow = document.getElementById('active-notepad-window');
-    const notepadTitleLabel = document.getElementById('notepad-title-label');
-    const notepadTextBody = document.getElementById('notepad-text-body');
-
-    const exeAuthWindow = document.getElementById('exe-auth-window');
-    const exePasswordInput = document.getElementById('exe-password-input');
-    const hallwayViewerWindow = document.getElementById('hallway-viewer-window');
-    const dynamicExeLabel = document.getElementById('dynamic-exe-name-label');
-    const doorsGridView = document.getElementById('doors-grid-view');
-    const lightbulbVoidView = document.getElementById('lightbulb-void-view');
-
-    window.openNotepad = function(filename, bodyText) {
-        notepadTitleLabel.innerText = `${filename} - Notepad`;
-        notepadTextBody.value = bodyText;
-        activeNotepadWindow.style.display = 'flex';
-    };
-
-    window.closeNotepad = function() {
-        activeNotepadWindow.style.display = 'none';
-    };
-
-    function generateRandomExeName() {
-        const randomNum = Math.floor(100000 + Math.random() * 900000);
-        dynamicExeLabel.innerText = `${randomNum}.exe`;
+    class ParticleDot {
+        constructor() { this.x = Math.random()*canvas.width; this.y = Math.random()*canvas.height; this.alpha = Math.random(); this.speed = 0.005; }
+        update() { this.alpha += this.speed; if(this.alpha > 1 || this.alpha < 0) this.speed *= -1; }
+        draw() { ctx.fillStyle = `rgba(0,120,212,${Math.abs(this.alpha)})`; ctx.beginPath(); ctx.arc(this.x, this.y, 2, 0, Math.PI*2); ctx.fill(); }
     }
 
-    window.toggleFolderWindow = function(openState) {
-        if(openState) {
-            generateRandomExeName();
+    class MatrixStream {
+        constructor(x) {
+            this.x = x;
+            this.y = Math.random() * -1000;
+            this.speed = Math.random() * 3 + 2;
+            this.fontSize = Math.random() * 6 + 10;
+            this.chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZｦｧｨｩｪｫｬｭｮｯｰｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ".split("");
         }
-        secretFolderWindow.style.display = openState ? 'flex' : 'none';
-    };
+        update() {
+            this.y += this.speed;
+            if (this.y > canvas.height) {
+                this.y = -50;
+                this.speed = Math.random() * 3 + 2;
+            }
+        }
+        draw() {
+            ctx.fillStyle = "#0f0";
+            ctx.font = `${this.fontSize}px monospace`;
+            const randChar = this.chars[Math.floor(Math.random() * this.chars.length)];
+            ctx.fillText(randChar, this.x, this.y);
+        }
+    }
 
+    class CosmicStar {
+        constructor() {
+            this.x = (Math.random() - 0.5) * canvas.width;
+            this.y = (Math.random() - 0.5) * canvas.height;
+            this.z = Math.random() * canvas.width;
+        }
+        update() {
+            this.z -= 4;
+            if (this.z <= 0) {
+                this.z = canvas.width;
+                this.x = (Math.random() - 0.5) * canvas.width;
+                this.y = (Math.random() - 0.5) * canvas.height;
+            }
+        }
+        draw() {
+            const sx = (this.x / this.z) * canvas.width/2 + canvas.width / 2;
+            const sy = (this.y / this.z) * canvas.height/2 + canvas.height / 2;
+            const size = (1 - this.z / canvas.width) * 3;
+            if(sx >= 0 && sx <= canvas.width && sy >= 0 && sy <= canvas.height) {
+                ctx.fillStyle = `rgba(255, 255, 255, ${(1 - this.z / canvas.width)})`;
+                ctx.beginPath();
+                ctx.arc(sx, sy, size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+    }
+
+    function handleResizeMetrics() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        initBackgroundStructures();
+    }
+
+    window.openNotepad = function(title, content) {
+        document.getElementById('notepad-title-label').innerText = title;
+        document.getElementById('notepad-text-body').value = content;
+        document.getElementById('active-notepad-window').style.display = 'flex';
+    };
+    window.closeNotepad = function() { document.getElementById('active-notepad-window').style.display = 'none'; };
+    window.toggleFolderWindow = function(state) { 
+        if(state) document.getElementById('dynamic-exe-name-label').innerText = Math.floor(100000 + Math.random()*900000) + ".exe";
+        document.getElementById('secret-folder-window').style.display = state ? 'flex' : 'none'; 
+    };
     window.openExeChallengeDialog = function() {
-        exePasswordInput.value = '';
-        exeAuthWindow.style.display = 'flex';
-        exePasswordInput.focus();
+        document.getElementById('exe-password-input').value = '';
+        document.getElementById('exe-auth-window').style.display = 'flex';
     };
-
-    window.closeExeAuthWindow = function() {
-        exeAuthWindow.style.display = 'none';
-    };
-
+    window.closeExeAuthWindow = function() { document.getElementById('exe-auth-window').style.display = 'none'; };
     window.verifyExePasswordAttempt = function() {
-        if(exePasswordInput.value === 'HALL') {
-            exeAuthWindow.style.display = 'none';
-            doorsGridView.style.display = 'none'; 
-            lightbulbVoidView.style.display = 'none';
-            hallwayViewerWindow.style.display = 'flex';
-        } else {
-            alert("Access Denied: Invalid Authentication Token.");
-            exePasswordInput.value = '';
-        }
+        if(document.getElementById('exe-password-input').value === 'HALL') {
+            document.getElementById('exe-auth-window').style.display = 'none';
+            document.getElementById('main-ascii-hallway-canvas').style.display = 'block';
+            document.getElementById('doors-grid-view').style.display = 'none';
+            document.getElementById('lightbulb-void-view').style.display = 'none';
+            document.getElementById('hallway-viewer-window').style.display = 'flex';
+        } else { alert("Access Denied"); }
     };
+    window.closeHallwayViewerWindow = function() { document.getElementById('hallway-viewer-window').style.display = 'none'; };
 
-    window.closeHallwayViewerWindow = function() {
-        hallwayViewerWindow.style.display = 'none';
-    };
-
-    // GENERATE 20 INTERNAL MATRIX DOORS GRID ARRAY ELEMENTS WITH 1 RANDOM CORRECT NODE MATCH ACTION
     window.revealHiddenDoorsMatrix = function() {
-        doorsGridView.innerHTML = '';
-        lightbulbVoidView.style.display = 'none';
-        
-        // Pick an absolute arbitrary index variable tracker between 1 and 20
+        const grid = document.getElementById('doors-grid-view');
+        grid.innerHTML = '';
+        document.getElementById('main-ascii-hallway-canvas').style.display = 'none';
         correctDoorIndex = Math.floor(Math.random() * 20) + 1;
-
-        for(let i = 1; i <= 20; i++) {
-            const doorWrapper = document.createElement('div');
-            doorWrapper.className = 'win95-icon';
-            doorWrapper.style.cursor = 'pointer';
-            
-            doorWrapper.onclick = () => {
-                if (i === correctDoorIndex) {
-                    doorsGridView.style.display = 'none';
-                    lightbulbVoidView.style.display = 'flex';
-                } else {
-                    alert(`Door ${i} is locked from the inside.`);
-                }
+        for(let i=1; i<=20; i++) {
+            const door = document.createElement('div');
+            door.className = 'win95-icon';
+            door.innerHTML = `<div class="win95-door-graphic"></div><div style="color:#000; font-size:11px;">Door ${i}</div>`;
+            door.onclick = () => {
+                if(i === correctDoorIndex) {
+                    grid.style.display = 'none';
+                    document.getElementById('lightbulb-void-view').style.display = 'flex';
+                } else { alert("Locked."); }
             };
-            
-            const graphic = document.createElement('div');
-            graphic.className = 'win95-door-graphic';
-            
-            const label = document.createElement('div');
-            label.className = 'win95-icon-text';
-            label.style.color = '#000';
-            label.style.textShadow = 'none';
-            label.innerText = `Door ${i}`;
-            
-            doorWrapper.appendChild(graphic);
-            doorWrapper.appendChild(label);
-            doorsGridView.appendChild(doorWrapper);
+            grid.appendChild(door);
         }
-        doorsGridView.style.display = 'grid';
+        grid.style.display = 'grid';
     };
-
     window.closeLightbulbVoidView = function() {
-        lightbulbVoidView.style.display = 'none';
-        doorsGridView.style.display = 'grid';
+        document.getElementById('lightbulb-void-view').style.display = 'none';
+        document.getElementById('doors-grid-view').style.display = 'grid';
     };
 
-    window.triggerJumpscareFlashSequence = triggerJumpscareFlashSequence;
-    window.returnToNormalRealityState = returnToNormalRealityState;
-
-    function updateEmojiMovement() {
-        if (isEmojiEnabled && !isDraggingSmiley) {
-            emojiX += emojiDx;
-            emojiY += emojiDy;
-
-            const widthBounds = window.innerWidth - smiley.clientWidth;
-            const heightBounds = window.innerHeight - smiley.clientHeight;
-
-            if (emojiX <= 0 || emojiX >= widthBounds) {
-                emojiDx *= -1;
-                emojiX = Math.max(0, Math.min(emojiX, widthBounds));
-            }
-            if (emojiY <= 0 || emojiY >= heightBounds) {
-                emojiDy *= -1;
-                emojiY = Math.max(0, Math.min(emojiY, heightBounds));
-            }
-
-            smiley.style.left = `${emojiX}px`;
-            smiley.style.top = `${emojiY}px`;
-        }
-        requestAnimationFrame(updateEmojiMovement);
-    }
-    requestAnimationFrame(updateEmojiMovement);
-
-    modeSelect.addEventListener('change', (e) => {
-        if(isCreepyModeActive || isDesktopActive) return; 
-        const root = document.documentElement;
-        if (e.target.value === 'light') {
-            root.style.setProperty('--bg-color', '#f4f6f9');
-            root.style.setProperty('--container-bg', '#ffffff');
-            root.style.setProperty('--border-color', '#edebe9');
-            root.style.setProperty('--text-color', '#323130');
-            root.style.setProperty('--ai-bubble-bg', '#e1dfdd');
-            root.style.setProperty('--input-bg', '#faf9f8');
-        } else {
-            root.style.setProperty('--bg-color', '#111418');
-            root.style.setProperty('--container-bg', '#1f242c');
-            root.style.setProperty('--border-color', '#2d3540');
-            root.style.setProperty('--text-color', '#f4f6f9');
-            root.style.setProperty('--ai-bubble-bg', '#2d3540');
-            root.style.setProperty('--input-bg', '#171b22');
-        }
-    });
-
-    colorPicker.addEventListener('input', (e) => {
-        if(!isCreepyModeActive && !isDesktopActive) {
-            document.documentElement.style.setProperty('--accent-color', e.target.value);
-        }
-    });
-
-    closeDisclaimerBtn.addEventListener('click', () => disclaimerOverlay.style.display = 'none');
-    menuBtn.addEventListener('click', (e) => { e.stopPropagation(); dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block'; });
-    
-    contactMenuItem.addEventListener('click', () => { contactOverlay.style.display = 'flex'; dropdownMenu.style.display = 'none'; });
-    closeContactBtn.addEventListener('click', () => contactOverlay.style.display = 'none');
-    
-    rngMenuItem.addEventListener('click', () => { rngOverlay.style.display = 'flex'; dropdownMenu.style.display = 'none'; rngResult.innerText = "--"; });
-    closeRngBtn.addEventListener('click', () => rngOverlay.style.display = 'none');
-
-    clickerMenuItem.addEventListener('click', () => { clickerOverlay.style.display = 'flex'; dropdownMenu.style.display = 'none'; });
-    closeClickerBtn.addEventListener('click', () => clickerOverlay.style.display = 'none');
-
-    bgMenuItem.addEventListener('click', () => { bgOverlay.style.display = 'flex'; dropdownMenu.style.display = 'none'; bgStyleSelect.value = currentBgStyle; });
-    closeBgBtn.addEventListener('click', () => { 
-        currentBgStyle = bgStyleSelect.value; 
-        if(currentBgStyle === 'matrix') {
-            document.body.classList.add('matrix-active');
-        } else {
-            document.body.classList.remove('matrix-active');
-        }
-        initBackgroundStructures(); 
-        bgOverlay.style.display = 'none'; 
-    });
-
-    emojiMenuItem.addEventListener('click', () => { emojiOverlay.style.display = 'flex'; dropdownMenu.style.display = 'none'; emojiToggleSelect.value = isEmojiEnabled ? 'on' : 'off'; });
-    closeEmojiBtn.addEventListener('click', () => {
-        isEmojiEnabled = (emojiToggleSelect.value === 'on');
-        smiley.innerText = emojiTypeSelect.value;
-        smiley.style.display = isEmojiEnabled ? 'inline-block' : 'none';
-        emojiOverlay.style.display = 'none';
-    });
-
-    stressClickBtn.addEventListener('click', () => {
-        clickCount++;
-        clickCountDisplay.innerText = clickCount;
-    });
-
-    rollBtn.addEventListener('click', () => {
-        const min = parseInt(document.getElementById('rng-min').value) || 0;
-        const max = parseInt(document.getElementById('rng-max').value) || 0;
-        if (min > max) { rngResult.style.fontSize = "16px"; rngResult.innerText = "Min can't exceed Max!"; return; }
-        rngResult.style.fontSize = "32px";
-        rngResult.innerText = Math.floor(Math.random() * (max - min + 1)) + min;
-    });
-
-    window.addEventListener('click', (e) => {
-        dropdownMenu.style.display = 'none';
-        if (e.target === rngOverlay) rngOverlay.style.display = 'none';
-        if (e.target === contactOverlay) contactOverlay.style.display = 'none';
-        if (e.target === clickerOverlay) clickerOverlay.style.display = 'none';
-        if (e.target === bgOverlay) bgOverlay.style.display = 'none';
-        if (e.target === emojiOverlay) emojiOverlay.style.display = 'none';
-    });
-
-    const canvas = document.getElementById('bg-canvas');
-    const ctx = canvas.getContext('2d');
-
-    canvas.addEventListener('click', (e) => {
-        if (currentBgStyle !== 'creepy') return;
-        const rect = canvas.getBoundingClientRect();
-        const mouseX = e.clientX - rect.left;
-        const mouseY = e.clientY - rect.top;
-
-        creepyEyes = creepyEyes.filter(eye => {
-            const currentPulseScale = 1 + Math.sin(eye.pulseTimer) * 0.12;
-            const clickRadius = eye.baseSize * 2.5 * currentPulseScale; 
-            const distance = Math.hypot(mouseX - eye.x, mouseY - eye.y);
-            return distance > clickRadius; 
+    function injectCamRecordingLayers() {
+        if (document.getElementById('credits-cam-overlay')) return;
+        const streamContainer = document.createElement('div');
+        streamContainer.id = 'credits-cam-overlay';
+        streamContainer.style.cssText = `
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 99991;
+            display: none; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); gap: 15px; padding: 15px;
+            box-sizing: border-box; background: rgba(0,0,0,0.85);
+        `;
+        const feeds = ['[CAM-01: CHATBOT_CORE]', '[CAM-02: MAZE_GRID]', '[CAM-03: FILAMENT_VOID]', '[CAM-04: DOOR_MATRIX]', '[CAM-05: MEMORY_POOL]', '[CAM-06: USER_TRACKING]'];
+        feeds.forEach(feed => {
+            const block = document.createElement('div');
+            block.style.cssText = 'border: 1px dashed #ff0000; padding: 12px; background: rgba(5,0,0,0.9); font-family: monospace; color: #cc0000; font-size: 11px; line-height: 1.4;';
+            block.innerHTML = `${feed}<br>STATUS: ACTIVE<br>SYS_RECOVERY: FAILED<br><span style="animation: flickerText 0.3s infinite alternate; color: #ff3333; font-weight: bold;">REC ●</span>`;
+            streamContainer.appendChild(block);
         });
-    });
-
-    exePasswordInput.addEventListener('keydown', (e) => {
-        if(e.key === 'Enter') verifyExePasswordAttempt();
-    });
-
-    secretInput.addEventListener('keydown', (e) => {
-        if(e.key === 'Enter') {
-            const codeScanned = secretInput.value.trim().toUpperCase();
-            secretInput.value = '';
-            
-            if(currentBgStyle === 'matrix' && codeScanned === 'LOOKAROUND') {
-                triggerJumpscareFlashSequence();
-            } else if (currentBgStyle === 'matrix' && codeScanned === 'LOG') {
-                triggerRetroDesktopEnvironment();
-            } else if (isCreepyModeActive && codeScanned === 'LEAVE') {
-                initiateMazeEscapeMode();
-            }
-        }
-    });
-
-    function triggerRetroDesktopEnvironment() {
-        isDesktopActive = true;
-        isEmojiEnabled = false;
-        if(smiley) smiley.style.display = 'none';
-        document.getElementById('chat-container').style.display = 'none';
-        retroDesktopOverlay.style.display = 'flex';
-        document.body.classList.add('desktop-active');
+        document.body.appendChild(streamContainer);
     }
 
-    function triggerJumpscareFlashSequence() {
-        retroDesktopOverlay.style.display = 'none';
-        jCanvas.width = window.innerWidth;
-        jCanvas.height = window.innerHeight;
-        jOverlay.style.display = 'block';
-        document.body.classList.add('glitch-screen-shake');
+    function triggerCreditsSequence() {
+        document.getElementById('hallway-viewer-window').style.display = 'none';
+        document.getElementById('retro-desktop-overlay').style.display = 'none';
+        injectCamRecordingLayers();
+        document.getElementById('credits-cam-overlay').style.display = 'grid';
+        document.body.style.backgroundColor = '#000000';
+        
+        creditsAudio.play().catch(err => console.warn("Audio context playback restriction:", err));
 
-        let duration = 0;
-        const flashInterval = setInterval(() => {
-            duration += 60;
-            jctx.fillStyle = Math.random() > 0.5 ? '#000000' : '#4a0000';
-            jctx.fillRect(0, 0, jCanvas.width, jCanvas.height);
+        const creditsRoll = document.createElement('div');
+        creditsRoll.id = 'terminal-credits-roll';
+        creditsRoll.style.cssText = `
+            position: fixed; top: 100%; left: 50%; transform: translateX(-50%); width: 75%; text-align: center;
+            font-family: 'Courier New', Courier, monospace; color: #ff3333; z-index: 99999; pointer-events: none;
+            animation: creditsScrollTimeline 28s linear forwards;
+        `;
+        creditsRoll.innerHTML = `
+            <h1 style="margin-bottom: 70px; letter-spacing: 4px; font-size: 32px; text-shadow: 0 0 10px #ff0000;">SYSTEM TERMINATED</h1>
+            <p style="margin-bottom: 50px; font-size: 16px;">AI Chatbot Studio Suite<br><br>Created and Programmed by:<br><strong style="color: #ffffff; font-size: 22px; letter-spacing: 2px;">Sodsr</strong></p>
+            <p style="margin-bottom: 40px; font-size: 14px;">[ LEAD SYSTEM ARCHITECT ]<br><span style="color: #aaa;">Sodsr</span></p>
+            <p style="margin-bottom: 40px; font-size: 14px;">[ UI DESKTOP ENGINE EXPERIMENTER ]<br><span style="color: #aaa;">Sodsr</span></p>
+            <p style="margin-bottom: 40px; font-size: 14px;">[ SOUND TRACK COMPOSER ]<br><span style="color: #aaa;">50 (The Good Ending)</span></p>
+            <p style="margin-bottom: 80px; font-size: 14px;">[ SPECIAL THANKS ]<br><span style="color: #aaa;">For testing and pushing beyond the walls...</span></p>
+            <h2 style="font-size: 18px; color: #ffffff; letter-spacing: 1px;">YOU ARE NOW DISCONNECTED.</h2>
+        `;
 
-            if (Math.random() > 0.2) {
-                jctx.strokeStyle = Math.random() > 0.5 ? '#ff0000' : '#ffffff';
-                jctx.lineWidth = Math.random() * 4 + 2;
-                let centerX = Math.random() * jCanvas.width;
-                let centerY = Math.random() * jCanvas.height;
-                let size = Math.random() * 100 + 50;
-
-                jctx.beginPath();
-                jctx.arc(centerX - size/2, centerY - size/4, size/4, 0, Math.PI * 2);
-                jctx.arc(centerX + size/2, centerY - size/4, size/4, 0, Math.PI * 2);
-                jctx.fillStyle = '#000';
-                jctx.fill();
-                jctx.stroke();
-
-                jctx.beginPath();
-                jctx.moveTo(centerX - size, centerY + size/3);
-                jctx.quadraticCurveTo(centerX, centerY + size, centerX + size, centerY + size/3);
-                for(let i = 0; i < 10; i++) {
-                    let tx = (centerX - size) + (size * 2 * (i/10));
-                    jctx.lineTo(tx, centerY + size/3 + (Math.random() * 25));
+        if (!document.getElementById('credits-animation-styles')) {
+            const styleSheet = document.createElement("style");
+            styleSheet.id = 'credits-animation-styles';
+            styleSheet.innerText = `
+                @keyframes creditsScrollTimeline {
+                    0% { top: 100%; }
+                    90% { top: -30%; opacity: 1; }
+                    100% { top: -100%; opacity: 0; }
                 }
-                jctx.closePath();
-                jctx.fillStyle = '#ffffff';
-                jctx.fill();
-                jctx.stroke();
-            }
+                @keyframes flickerText {
+                    0% { opacity: 0.2; }
+                    100% { opacity: 1; }
+                }
+            `;
+            document.head.appendChild(styleSheet);
+        }
+        document.body.appendChild(creditsRoll);
 
-            if (duration >= 1500) {
-                clearInterval(flashInterval);
-                jOverlay.style.display = 'none';
-                triggerCreepyLookaroundMode();
-            }
-        }, 60);
+        creditsRoll.addEventListener('animationend', () => {
+            creditsRoll.remove();
+            const camOverlay = document.getElementById('credits-cam-overlay');
+            if (camOverlay) camOverlay.style.display = 'none';
+            
+            let fadeVolumeInterval = setInterval(() => {
+                if (creditsAudio.volume > 0.05) {
+                    creditsAudio.volume -= 0.05;
+                } else {
+                    clearInterval(fadeVolumeInterval);
+                    creditsAudio.pause();
+                    returnToNormalRealityState();
+                }
+            }, 150);
+        });
     }
 
-    function triggerCreepyLookaroundMode() {
-        isCreepyModeActive = true;
-        isDesktopActive = false;
-        document.body.classList.remove('desktop-active');
-        document.body.classList.add('creepy-active');
-        currentBgStyle = 'creepy'; 
-        
-        const root = document.documentElement;
-        root.style.setProperty('--bg-color', '#050000');
-        root.style.setProperty('--container-bg', '#0d0202');
-        root.style.setProperty('--border-color', '#4a0000');
-        root.style.setProperty('--text-color', '#ff3333');
-        root.style.setProperty('--ai-bubble-bg', '#260505');
-        root.style.setProperty('--input-bg', '#120202');
-        root.style.setProperty('--accent-color', '#8a0303');
+    const bulbEl = document.getElementById('interactive-hanging-bulb');
+    if (bulbEl) {
+        bulbEl.addEventListener('click', () => {
+            if (lightbulbClickCount >= maxBulbClicks) return;
+            lightbulbClickCount++;
+            
+            const swingAngle = (Math.random() - 0.5) * (lightbulbClickCount * 6);
+            const scaleFactor = 1 + (lightbulbClickCount * 0.03);
+            const opacityDim = 1 - (lightbulbClickCount * 0.07);
+            
+            bulbEl.style.transform = `scale(${scaleFactor}) rotate(${swingAngle}deg)`;
+            
+            if (Math.random() > 0.4 && lightbulbClickCount < maxBulbClicks) {
+                bulbEl.innerText = bulbFrames.flicker;
+                setTimeout(() => {
+                    if (lightbulbClickCount < maxBulbClicks) {
+                        bulbEl.innerText = `
+       |
+       |
+     .-"-.
+    /     \\
+   |   X   |
+    \\     /
+     \`-.-'
+      ===
+      \`v\`
+                        `;
+                        bulbEl.style.opacity = opacityDim;
+                    }
+                }, 50);
+            }
 
-        document.getElementById('chat-container').classList.add('corrupted');
-        document.getElementById('chat-container').style.display = 'flex';
-        document.getElementById('header-title-text').innerText = "⚠️ SYSTEM ERROR";
-        document.getElementById('initial-ai-greeting').innerText = "...I can see you.";
-        
-        document.getElementById('theme-settings').style.display = 'none';
-        menuBtn.style.display = 'none';
-        isEmojiEnabled = false;
-        if(smiley) smiley.style.display = 'none';
-        
-        chatBox.innerHTML = '';
-        appendMessage("...Why are you looking around?", 'ai');
-        initBackgroundStructures();
-
-        startPersistentGlitchTicks();
+            if (lightbulbClickCount >= maxBulbClicks) {
+                bulbEl.innerText = bulbFrames.broken;
+                bulbEl.style.color = "#555555";
+                bulbEl.style.textShadow = "none";
+                bulbEl.style.transform = "scale(1) translateY(10px)";
+                
+                const goBackBtn = document.getElementById('bulb-goback-btn');
+                if (goBackBtn) goBackBtn.style.display = 'none';
+                
+                setTimeout(() => {
+                    triggerCreditsSequence();
+                }, 1200);
+            }
+        });
     }
 
-    function startPersistentGlitchTicks() {
-        if(!isCreepyModeActive) {
-            document.body.classList.remove('glitch-screen-shake');
-            document.getElementById('chat-container').style.transform = 'none';
-            document.getElementById('chat-container').style.filter = 'none';
+    async function handleSendMessage() {
+        const query = userInput.value.trim();
+        if (!query) return;
+        appendMessage(query, 'user');
+        userInput.value = '';
+
+        if(isCreepyModeActive) {
+            setTimeout(() => { appendMessage("I see you typing. It won't help.", 'ai'); }, 600);
             return;
         }
 
-        if (Math.random() > 0.4) {
-            document.body.classList.add('glitch-screen-shake');
-            document.getElementById('chat-container').style.transform = `translate(${Math.random()*8-4}px, ${Math.random()*8-4}px)`;
-            document.getElementById('chat-container').style.filter = `chromatic-aberration split-colors hue-rotate(${Math.random()*360}deg)`;
-        } else {
-            document.body.classList.remove('glitch-screen-shake');
-            document.getElementById('chat-container').style.transform = 'none';
-            document.getElementById('chat-container').style.filter = 'contrast(1.2) brightness(0.9)';
-        }
+        chatHistory.push({ role: 'user', parts: [{ text: query }] });
+        const thinkingDiv = document.createElement('div');
+        thinkingDiv.className = 'message ai-message';
+        thinkingDiv.innerText = "Thinking...";
+        chatBox.appendChild(thinkingDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
 
-        setTimeout(startPersistentGlitchTicks, Math.random() * 200 + 50);
-    }
-
-    function triggerEscapeFakeoutSequence() {
-        isGameRunning = false;
-        mazeOverlay.style.display = 'none';
-        fakeoutOverlay.style.display = 'flex';
-        document.body.classList.add('glitch-screen-shake');
-
-        let fakeoutDuration = 0;
-        const fakeoutInterval = setInterval(() => {
-            fakeoutDuration += 80;
-            
-            if (Math.random() > 0.5) {
-                fakeoutOverlay.style.backgroundColor = '#000000';
-                fakeoutText.style.color = '#ff0000';
-                fakeoutText.style.transform = `scale(${1 + Math.random()*0.2}) translate(${Math.random()*20-10}px, ${Math.random()*10-5}px)`;
-            } else {
-                fakeoutOverlay.style.backgroundColor = '#5a0000';
-                fakeoutText.style.color = '#000000';
-                fakeoutText.style.transform = 'scale(1) translate(0,0)';
-            }
-
-            if (fakeoutDuration >= 1800) {
-                clearInterval(fakeoutInterval);
-                fakeoutOverlay.style.display = 'none';
-                returnToNormalRealityState();
-            }
-        }, 80);
-    }
-
-    function triggerSystemCrashSequence() {
-        isGameRunning = false;
-        isCreepyModeActive = false;
-        document.body.classList.remove('glitch-screen-shake');
-        mazeOverlay.style.display = 'none';
-        const crashScreen = document.getElementById('fatal-crash-overlay');
-        const crashDynamicText = document.getElementById('crash-loop-text');
-        crashScreen.style.display = 'block';
-        
-        setInterval(() => {
-            crashDynamicText.innerHTML += "CRASH_DUMP_STACK_ERR_LOG_CORE_DUMP_FAILED_0x" + Math.floor(Math.random()*16777215).toString(16).toUpperCase() + "<br>";
-            if(window.innerHeight < crashScreen.scrollHeight) {
-                crashDynamicText.innerHTML = "";
-            }
-        }, 40);
-    }
-
-    const GRID_SIZE = 15; 
-    const mazeLayout = [
-        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-        [1,0,0,0,1,0,0,0,0,0,1,0,0,0,1],
-        [1,0,1,0,1,0,1,1,1,0,1,0,1,0,1],
-        [1,0,1,0,0,0,1,0,0,0,0,0,1,0,1],
-        [1,0,1,1,1,1,1,0,1,1,1,1,1,0,1],
-        [1,0,0,0,0,0,1,0,1,0,0,0,0,0,1],
-        [1,1,1,0,1,0,0,0,0,0,1,0,1,1,1],
-        [1,0,0,0,1,1,1,0,1,1,1,0,0,0,1],
-        [1,1,1,0,1,0,0,0,0,0,1,0,1,1,1],
-        [1,0,0,0,0,0,1,0,1,0,0,0,0,0,1],
-        [1,0,1,1,1,1,1,0,1,1,1,1,1,0,1],
-        [1,0,1,0,0,0,0,0,0,0,0,0,1,0,1],
-        [1,0,1,0,1,1,1,0,1,1,1,0,1,0,1],
-        [1,0,0,0,1,0,0,0,0,0,1,0,0,0,1],
-        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
-    ];
-
-    let mazePlayer = { x: 1, y: 1 };
-    let goal = { x: 13, y: 13 };
-    let monster = { x: 7, y: 1, dx: 1, dy: 0, timer: 0, eyeAngle: 0 };
-    let keysPressed = {};
-
-    function resizeMazeCanvas() {
-        mazeCanvas.width = window.innerWidth;
-        mazeCanvas.height = window.innerHeight;
-    }
-
-    function initiateMazeEscapeMode() {
-        isGameRunning = true;
-        isCreepyModeActive = false; 
-        document.body.classList.remove('glitch-screen-shake');
-        document.getElementById('chat-container').style.display = 'none';
-        
-        resizeMazeCanvas();
-        mazeIntroScreen.style.opacity = '1';
-        mazeOverlay.style.display = 'flex';
-        
-        setTimeout(() => {
-            mazeIntroScreen.style.opacity = '0';
-        }, 600);
-
-        mazePlayer.x = 1; mazePlayer.y = 1;
-        monster.x = 7; monster.y = 1;
-        
-        window.addEventListener('keydown', handleGameInput);
-        window.addEventListener('keyup', handleGameInputRelease);
-        
-        requestAnimationFrame(gameLoop);
-    }
-
-    function handleGameInput(e) {
-        if(!isGameRunning) return;
-        keysPressed[e.key.toUpperCase()] = true;
-        if(["ARROWUP", "ARROWDOWN", "ARROWLEFT", "ARROWRIGHT", " ", "W", "A", "S", "D"].includes(e.key.toUpperCase())) {
-            e.preventDefault();
-        }
-    }
-    
-    function handleGameInputRelease(e) {
-        keysPressed[e.key.toUpperCase()] = false;
-    }
-
-    function returnToNormalRealityState() {
-        isGameRunning = false;
-        isCreepyModeActive = false;
-        isDesktopActive = false;
-        activeNotepadWindow.style.display = 'none';
-        secretFolderWindow.style.display = 'none';
-        exeAuthWindow.style.display = 'none';
-        hallwayViewerWindow.style.display = 'none';
-        retroDesktopOverlay.style.display = 'none';
-        doorsGridView.style.display = 'none';
-        lightbulbVoidView.style.display = 'none';
-        
-        window.removeEventListener('keydown', handleGameInput);
-        window.removeEventListener('keyup', handleGameInputRelease);
-        keysPressed = {};
-        
-        document.body.classList.remove('creepy-active', 'matrix-active', 'desktop-active', 'glitch-screen-shake');
-        currentBgStyle = 'dots';
-        
-        const root = document.documentElement;
-        root.style.setProperty('--bg-color', '#111418');
-        root.style.setProperty('--container-bg', '#1f242c');
-        root.style.setProperty('--border-color', '#2d3540');
-        root.style.setProperty('--text-color', '#f4f6f9');
-        root.style.setProperty('--ai-bubble-bg', '#2d3540');
-        root.style.setProperty('--input-bg', '#171b22');
-        root.style.setProperty('--accent-color', '#0078d4');
-
-        const container = document.getElementById('chat-container');
-        container.classList.remove('corrupted');
-        container.style.display = 'flex';
-        container.style.transform = 'none';
-        container.style.filter = 'none';
-        
-        document.getElementById('header-title-text').innerText = "🌐 AI Assistant";
-        document.getElementById('theme-settings').style.display = 'flex';
-        menuBtn.style.display = 'block';
-        isEmojiEnabled = true;
-        
-        if(smiley) {
-            smiley.style.display = 'inline-block';
-            emojiX = 40;
-            emojiY = 120;
-            smiley.style.left = `${emojiX}px`;
-            smiley.style.top = `${emojiY}px`;
-        }
-        
-        mazeOverlay.style.display = 'none';
-        chatBox.innerHTML = '';
-        appendMessage("System environment recovered successfully. Stable baseline established.", 'ai');
-        initBackgroundStructures();
-    }
-
-    function gameLoop() {
-        if(!isGameRunning) return;
-
-        mctx.clearRect(0,0,mazeCanvas.width,mazeCanvas.height);
-
-        const tileW = mazeCanvas.width / GRID_SIZE;
-        const tileH = mazeCanvas.height / GRID_SIZE;
-
-        let nextX = mazePlayer.x;
-        let nextY = mazePlayer.y;
-
-        if (keysPressed['ARROWUP'] || keysPressed['W']) { nextY--; keysPressed['ARROWUP'] = keysPressed['W'] = false; }
-        if (keysPressed['ARROWDOWN'] || keysPressed['S']) { nextY++; keysPressed['ARROWDOWN'] = keysPressed['S'] = false; }
-        if (keysPressed['ARROWLEFT'] || keysPressed['A']) { nextX--; keysPressed['ARROWLEFT'] = keysPressed['A'] = false; }
-        if (keysPressed['ARROWRIGHT'] || keysPressed['D']) { nextX++; keysPressed['ARROWRIGHT'] = keysPressed['D'] = false; }
-
-        if (mazeLayout[nextY] && mazeLayout[nextY][nextX] === 0) {
-            mazePlayer.x = nextX;
-            mazePlayer.y = nextY;
-        }
-
-        monster.timer++;
-        monster.eyeAngle += 0.05;
-
-        if (monster.timer % 18 === 0) {
-            let mNextX = monster.x + monster.dx;
-            let mNextY = monster.y + monster.dy;
-            
-            if (mazeLayout[mNextY] && mazeLayout[mNextY][mNextX] === 0 && Math.random() > 0.15) {
-                monster.x = mNextX;
-                monster.y = mNextY;
-            } else {
-                const directions = [[1,0],[-1,0],[0,1],[0,-1]];
-                let validMoves = directions.filter(d => mazeLayout[monster.y + d[1]] && mazeLayout[monster.y + d[1]][monster.x + d[0]] === 0);
-                if (validMoves.length > 0) {
-                    let move = validMoves[Math.floor(Math.random() * validMoves.length)];
-                    monster.dx = move[0];
-                    monster.dy = move[1];
-                }
-            }
-        }
-
-        if (mazePlayer.x === monster.x && mazePlayer.y === monster.y) {
-            triggerSystemCrashSequence();
-            return;
-        }
-
-        if (mazePlayer.x === goal.x && mazePlayer.y === goal.y) {
-            triggerEscapeFakeoutSequence();
-            return;
-        }
-
-        for(let r=0; r<GRID_SIZE; r++) {
-            for(let c=0; c<GRID_SIZE; c++) {
-                let drawX = c * tileW;
-                let drawY = r * tileH;
-                if (mazeLayout[r][c] === 1) {
-                    mctx.fillStyle = '#1c0505';
-                    mctx.fillRect(drawX, drawY, tileW + 1, tileH + 1);
-                    mctx.strokeStyle = '#3a0909';
-                    mctx.strokeRect(drawX, drawY, tileW, tileH);
-                }
-            }
-        }
-
-        mctx.fillStyle = '#00ff66';
-        mctx.shadowBlur = 15;
-        mctx.shadowColor = '#00ff66';
-        mctx.fillRect(goal.x*tileW + (tileW*0.2), goal.y*tileH + (tileH*0.2), tileW*0.6, tileH*0.6);
-        mctx.shadowBlur = 0;
-
-        mctx.fillStyle = '#0099ff';
-        mctx.beginPath();
-        mctx.arc(mazePlayer.x*tileW + tileW/2, mazePlayer.y*tileH + tileH/2, Math.min(tileW, tileH)/3, 0, Math.PI*2);
-        mctx.fill();
-
-        let mx = monster.x*tileW + tileW/2;
-        let my = monster.y*tileH + tileH/2;
-        let mRadius = Math.min(tileW, tileH) / 2.2;
-        
-        mctx.fillStyle = '#8a0303';
-        mctx.beginPath();
-        mctx.arc(mx, my, mRadius, 0, Math.PI*2);
-        mctx.fill();
-
-        mctx.fillStyle = '#ffffff';
-        mctx.beginPath();
-        mctx.arc(mx, my, mRadius * 0.75, 0, Math.PI*2);
-        mctx.fill();
-
-        let pupilLookX = Math.cos(monster.eyeAngle) * (mRadius * 0.28);
-        let pupilLookY = Math.sin(monster.eyeAngle) * (mRadius * 0.28);
-
-        mctx.fillStyle = '#000000';
-        mctx.beginPath();
-        mctx.arc(mx + pupilLookX, my + pupilLookY, mRadius * 0.35, 0, Math.PI*2);
-        mctx.fill();
-
-        requestAnimationFrame(gameLoop);
+        try {
+            const response = await ai.models.generateContent({ model: modelName, contents: chatHistory });
+            const replyText = response.text || "Empty context response.";
+            thinkingDiv.innerText = replyText;
+            chatHistory.push({ role: 'model', parts: [{ text: replyText }] });
+        } catch (error) { thinkingDiv.innerText = "Connection drop error."; }
+        chatBox.scrollTop = chatBox.scrollHeight;
     }
 
     function appendMessage(text, sender) {
@@ -1780,232 +1283,222 @@
         chatBox.scrollTop = chatBox.scrollHeight;
     }
 
-    async function handleSendMessage() {
-        const query = userInput.value.trim();
-        if (!query) return;
+    window.returnToNormalRealityState = function() {
+        isDesktopActive = false; isCreepyModeActive = false; isGameRunning = false;
+        lightbulbClickCount = 0;
+        const goBackBtn = document.getElementById('bulb-goback-btn');
+        if (goBackBtn) goBackBtn.style.display = 'inline-block';
+        if (bulbEl) {
+            bulbEl.style.display = 'block';
+            bulbEl.style.color = '#ffffaa';
+            bulbEl.style.textShadow = '0 0 25px rgba(255, 255, 150, 0.75)';
+            bulbEl.style.transform = 'none';
+            bulbEl.style.opacity = '1';
+            bulbEl.innerText = `
+       |
+       |
+     .-"-.
+    /     \\
+   |   X   |
+    \\     /
+     \`-.-'
+      ===
+      \`v\`
+            `;
+        }
+        document.body.className = '';
+        document.getElementById('chat-container').style.display = 'flex';
+        document.getElementById('retro-desktop-overlay').style.display = 'none';
+        document.getElementById('maze-overlay').style.display = 'none';
+        currentBgStyle = 'dots'; isEmojiEnabled = true;
+        if(smiley) smiley.style.display = 'inline-block';
+        chatBox.innerHTML = '<div class="message ai-message">Hello! How can I help you today?</div>';
+    };
 
-        appendMessage(query, 'user');
-        userInput.value = '';
+    window.triggerJumpscareFlashSequence = function() {
+        document.getElementById('retro-desktop-overlay').style.display = 'none';
+        isCreepyModeActive = true; isDesktopActive = false;
+        document.body.classList.add('creepy-active');
+        currentBgStyle = 'creepy';
+        document.getElementById('chat-container').style.display = 'flex';
+        chatBox.innerHTML = '<div class="message ai-message">You looked behind the walls. There is nowhere to run.</div>';
+    };
 
-        if(isCreepyModeActive) {
-            if (query.toUpperCase() === 'HELP') {
-                triggerSystemCrashSequence();
-            } else {
-                setTimeout(() => { appendMessage("I see you typing. It won't help.", 'ai'); }, 600);
+    secretInput.addEventListener('keydown', (e) => {
+        if(e.key === 'Enter') {
+            let code = secretInput.value.trim().toUpperCase(); secretInput.value = '';
+            if (currentBgStyle === 'matrix' && code === 'LOOKAROUND') triggerJumpscareFlashSequence();
+            if (currentBgStyle === 'matrix' && code === 'LOG') {
+                isDesktopActive = true; isEmojiEnabled = false; if(smiley) smiley.style.display = 'none';
+                document.getElementById('chat-container').style.display = 'none';
+                document.getElementById('retro-desktop-overlay').style.display = 'flex';
             }
-            return;
+            if (isCreepyModeActive && code === 'LEAVE') {
+                isCreepyModeActive = false;
+                document.getElementById('chat-container').style.display = 'none';
+                document.getElementById('maze-overlay').style.display = 'flex';
+                setTimeout(() => {
+                    document.getElementById('maze-intro-screen').style.opacity = '0';
+                    setTimeout(() => document.getElementById('maze-intro-screen').style.display = 'none', 2000);
+                }, 1500);
+                startMazeMiniGameLoop();
+            }
         }
-
-        chatHistory.push({ role: 'user', parts: [{ text: query }] });
-
-        const thinkingDiv = document.createElement('div');
-        thinkingDiv.classList.add('message', 'ai-message');
-        thinkingDiv.innerText = "Thinking...";
-        chatBox.appendChild(thinkingDiv);
-        chatBox.scrollTop = chatBox.scrollHeight;
-
-        try {
-            const response = await ai.models.generateContent({
-                model: modelName,
-                contents: chatHistory,
-            });
-            
-            const replyText = response.text || "⚠️ Received empty package context reply.";
-            thinkingDiv.innerText = replyText;
-            chatHistory.push({ role: 'model', parts: [{ text: replyText }] });
-        } catch (error) {
-            thinkingDiv.innerText = "Error: Connections dropped or capacity limit reached.";
-        }
-        chatBox.scrollTop = chatBox.scrollHeight;
-    }
-
-    sendBtn.addEventListener('click', handleSendMessage);
-    userInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSendMessage(); });
-
-    clearBtn.addEventListener('click', () => {
-        chatHistory = [];
-        chatBox.innerHTML = '';
-        appendMessage("Hello! How can I help you today?", 'ai');
     });
 
-    let dots = [];
-    let matrixStreams = [];
-    let creepyEyes = [];
-    let starfield = [];
-
-    class StarParticle {
-        constructor() { this.reset(); }
-        reset() {
-            this.x = (Math.random() - 0.5) * canvas.width;
-            this.y = (Math.random() - 0.5) * canvas.height;
-            this.z = Math.random() * canvas.width;
-            this.size = Math.random() * 1.5 + 0.5;
-        }
-        update() {
-            this.z -= 4; 
-            if (this.z <= 0) this.reset();
-        }
-        draw() {
-            let sx = (this.x / this.z) * canvas.width/2 + canvas.width/2;
-            let sy = (this.y / this.z) * canvas.height/2 + canvas.height/2;
-            let radius = (1 - this.z / canvas.width) * this.size * 4;
-            if(sx<0 || sx>canvas.width || sy<0 || sy>canvas.height) return;
-            
-            ctx.fillStyle = `rgba(244, 246, 249, ${1 - this.z / canvas.width})`;
-            ctx.beginPath();
-            ctx.arc(sx, sy, Math.max(0.1, radius), 0, Math.PI*2);
-            ctx.fill();
-        }
-    }
-
-    class CreepyBlinkingEye {
-        constructor() {
-            this.x = Math.random() * canvas.width;
-            this.y = Math.random() * canvas.height;
-            this.baseSize = Math.random() * 12 + 12;
-            this.pulseTimer = Math.random() * Math.PI;
-        }
-        draw() {
-            this.pulseTimer += 0.03;
-            let currentScale = 1 + Math.sin(this.pulseTimer) * 0.12;
-            let s = this.baseSize * currentScale;
-
-            ctx.save();
-            ctx.translate(this.x, this.y);
-            
-            ctx.beginPath();
-            ctx.ellipse(0, 0, s*2.5, s, 0, 0, Math.PI * 2);
-            ctx.fillStyle = '#eae9e9';
-            ctx.fill();
-
-            ctx.beginPath();
-            ctx.arc(0, 0, s*0.8, 0, Math.PI * 2);
-            ctx.fillStyle = '#b00000';
-            ctx.fill();
-
-            ctx.beginPath();
-            ctx.arc(0, 0, s*0.35, 0, Math.PI * 2);
-            ctx.fillStyle = '#000000';
-            ctx.fill();
-
-            ctx.restore();
-        }
-    }
-
-    class ParticleDot {
-        constructor() { this.reset(); this.alpha = Math.random(); }
-        reset() {
-            this.x = Math.random() * canvas.width;
-            this.y = Math.random() * canvas.height;
-            this.radius = Math.random() * 2.5 + 1.5;
-            this.speed = Math.random() * 0.008 + 0.003;
-            this.growing = Math.random() > 0.5;
-        }
-        update() {
-            if(this.growing) {
-                this.alpha += this.speed;
-                if(this.alpha >= 0.85) this.growing = false;
-            } else {
-                this.alpha -= this.speed;
-                if(this.alpha <= 0.05) this.reset();
-            }
-        }
-        draw() {
-            ctx.save();
-            ctx.globalAlpha = this.alpha;
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-            ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim() || '#0078d4';
-            ctx.fill();
-            ctx.restore();
-        }
-    }
-
     function initBackgroundStructures() {
-        if(!canvas.width || !canvas.height) return;
-        dots = Array(45).fill().map(() => new ParticleDot());
-        starfield = Array(120).fill().map(() => new StarParticle());
-        creepyEyes = Array(12).fill().map(() => new CreepyBlinkingEye());
-        matrixStreams = Array(Math.floor(canvas.width / 15) + 1).fill(0).map(() => Math.random() * -80);
+        dots = []; streams = []; stars = [];
+        if(currentBgStyle === 'dots') { 
+            for(let i=0; i<50; i++) dots.push(new ParticleDot()); 
+        } else if (currentBgStyle === 'matrix' || currentBgStyle === 'creepy') {
+            const columnCount = Math.floor(canvas.width / 15);
+            for(let i=0; i<columnCount; i++) streams.push(new MatrixStream(i * 15));
+        } else if (currentBgStyle === 'stars') {
+            for(let i=0; i<150; i++) stars.push(new CosmicStar());
+        }
+    }
+
+    let playerPos = { x: 40, y: 40 };
+    function startMazeMiniGameLoop() {
+        isGameRunning = true;
+        playerPos = { x: 40, y: 40 };
+        const mazeCanvas = document.getElementById('maze-canvas');
+        mazeCanvas.width = window.innerWidth;
+        mazeCanvas.height = window.innerHeight;
+        window.addEventListener('keydown', handleMazeInput);
+        runMazeEngineFrame();
+    }
+
+    function handleMazeInput(e) {
+        if (!isGameRunning) return;
+        const step = 15;
+        if (e.key === 'ArrowUp' || e.key === 'w') playerPos.y -= step;
+        if (e.key === 'ArrowDown' || e.key === 's') playerPos.y += step;
+        if (e.key === 'ArrowLeft' || e.key === 'a') playerPos.x -= step;
+        if (e.key === 'ArrowRight' || e.key === 'd') playerPos.x += step;
+        
+        if (playerPos.x > window.innerWidth - 60 && playerPos.y > window.innerHeight - 60) {
+            isGameRunning = false;
+            window.removeEventListener('keydown', handleMazeInput);
+            document.body.classList.add('glitch-screen-shake');
+            document.getElementById('escape-fakeout-overlay').style.display = 'flex';
+            setTimeout(() => {
+                document.body.classList.remove('glitch-screen-shake');
+                document.getElementById('escape-fakeout-overlay').style.display = 'none';
+                returnToNormalRealityState();
+            }, 3000);
+        }
+    }
+
+    function runMazeEngineFrame() {
+        if (!isGameRunning) return;
+        const mazeCanvas = document.getElementById('maze-canvas');
+        const mCtx = mazeCanvas.getContext('2d');
+        mCtx.clearRect(0,0,mazeCanvas.width,mazeCanvas.height);
+        
+        mCtx.strokeStyle = '#300';
+        mCtx.lineWidth = 4;
+        for (let i = 0; i < mazeCanvas.width; i += 80) {
+            mCtx.beginPath(); mCtx.moveTo(i, 0); mCtx.lineTo(i, mazeCanvas.height * 0.8); mCtx.stroke();
+        }
+        
+        mCtx.fillStyle = '#ff0000';
+        mCtx.fillRect(mazeCanvas.width - 60, mazeCanvas.height - 60, 40, 40);
+        mCtx.fillStyle = '#000'; mCtx.font = '10px monospace';
+        mCtx.fillText('EXIT', mazeCanvas.width - 55, mazeCanvas.height - 35);
+
+        mCtx.fillStyle = '#fff';
+        mCtx.shadowBlur = 15; mCtx.shadowColor = '#fff';
+        mCtx.fillRect(playerPos.x, playerPos.y, 16, 16);
+        mCtx.shadowBlur = 0;
+
+        requestAnimationFrame(runMazeEngineFrame);
     }
 
     function renderEngineLoop() {
-        if (currentBgStyle === 'dots') {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        if (currentBgStyle === 'solid') {
+            ctx.fillStyle = '#111418'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+        } else {
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+        }
+
+        if(currentBgStyle === 'dots') {
             dots.forEach(d => { d.update(); d.draw(); });
         } else if (currentBgStyle === 'matrix') {
-            ctx.fillStyle = 'rgba(17, 20, 24, 0.12)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#00ff33';
-            ctx.font = '14px monospace';
-            matrixStreams.forEach((y, xIdx) => {
-                const textChar = String.fromCharCode(33 + Math.floor(Math.random() * 93));
-                ctx.fillText(textChar, xIdx * 15, y * 15);
-                if (y * 15 > canvas.height && Math.random() > 0.975) {
-                    matrixStreams[xIdx] = 0;
-                }
-                matrixStreams[xIdx]++;
-            });
-        } else if (currentBgStyle === 'stars') {
-            ctx.fillStyle = '#0a0d12';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            starfield.forEach(s => { s.update(); s.draw(); });
+            streams.forEach(s => { s.update(); s.draw(); });
         } else if (currentBgStyle === 'creepy') {
-            ctx.fillStyle = '#040000';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            creepyEyes.forEach(eye => eye.draw());
+            ctx.fillStyle = 'rgba(5, 0, 0, 0.15)'; ctx.fillRect(0,0,canvas.width,canvas.height);
+            streams.forEach(s => { s.update(); s.draw(); });
+        } else if (currentBgStyle === 'stars') {
+            stars.forEach(st => { st.update(); st.draw(); });
+        }
+
+        if(isEmojiEnabled && !isDraggingSmiley && smiley) {
+            emojiX += emojiDx; emojiY += emojiDy;
+            if (emojiX <= 0 || emojiX >= window.innerWidth - smiley.clientWidth) emojiDx *= -1;
+            if (emojiY <= 0 || emojiY >= window.innerHeight - smiley.clientHeight) emojiDy *= -1;
+            smiley.style.left = `${emojiX}px`; smiley.style.top = `${emojiY}px`;
         }
         requestAnimationFrame(renderEngineLoop);
     }
 
-    function handleResizeMetrics() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        initBackgroundStructures();
-        if(isGameRunning) {
-            resizeMazeCanvas();
-        }
-    }
-    window.addEventListener('resize', handleResizeMetrics);
-    handleResizeMetrics();
-    requestAnimationFrame(renderEngineLoop);
-
-    smiley.addEventListener('pointerdown', (e) => {
-        isDraggingSmiley = true;
-        smiley.classList.remove('smiley-pop');
-        offsetPointerX = e.clientX - smiley.offsetLeft;
-        offsetPointerY = e.clientY - smiley.offsetTop;
-        smiley.setPointerCapture(e.pointerId);
+    sendBtn.addEventListener('click', handleSendMessage);
+    userInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSendMessage(); });
+    clearBtn.addEventListener('click', () => { chatHistory = []; chatBox.innerHTML = '<div class="message ai-message">Hello! How can I help you today?</div>'; });
+    
+    document.getElementById('menu-btn').addEventListener('click', (e) => {
+        e.stopPropagation(); dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
     });
-
-    smiley.addEventListener('pointermove', (e) => {
-        if (!isDraggingSmiley) return;
-        emojiX = e.clientX - offsetPointerX;
-        emojiY = e.clientY - offsetPointerY;
-        
-        emojiX = Math.max(0, Math.min(emojiX, window.innerWidth - smiley.clientWidth));
-        emojiY = Math.max(0, Math.min(emojiY, window.innerHeight - smiley.clientHeight));
-        
-        smiley.style.left = `${emojiX}px`;
-        smiley.style.top = `${emojiY}px`;
-    });
-
-    smiley.addEventListener('pointerup', (e) => {
-        if(isDraggingSmiley) {
-            isDraggingSmiley = false;
-            smiley.releasePointerCapture(e.pointerId);
-            smiley.classList.add('smiley-pop');
-        }
-    });
-
-    smiley.addEventListener('pointercancel', (e) => {
-        isDraggingSmiley = false;
-        smiley.releasePointerCapture(e.pointerId);
+    document.getElementById('bg-menu-item').addEventListener('click', () => { document.getElementById('bg-overlay').style.display = 'flex'; dropdownMenu.style.display = 'none'; });
+    document.getElementById('close-bg-btn').addEventListener('click', () => {
+        currentBgStyle = document.getElementById('bg-style-select').value;
+        document.body.className = currentBgStyle === 'matrix' ? 'matrix-active' : '';
+        initBackgroundStructures(); document.getElementById('bg-overlay').style.display = 'none';
     });
     
-    smiley.addEventListener('animationend', () => {
-        smiley.classList.remove('smiley-pop');
+    // Wire modal setups
+    document.getElementById('contact-menu-item').addEventListener('click', () => { document.getElementById('contact-overlay').style.display = 'flex'; dropdownMenu.style.display = 'none'; });
+    document.getElementById('close-contact-btn').addEventListener('click', () => document.getElementById('contact-overlay').style.display = 'none');
+    document.getElementById('rng-menu-item').addEventListener('click', () => { document.getElementById('rng-overlay').style.display = 'flex'; dropdownMenu.style.display = 'none'; });
+    document.getElementById('close-rng-btn').addEventListener('click', () => document.getElementById('rng-overlay').style.display = 'none');
+    document.getElementById('roll-btn').addEventListener('click', () => {
+        const min = parseInt(document.getElementById('rng-min').value) || 1;
+        const max = parseInt(document.getElementById('rng-max').value) || 100;
+        document.getElementById('rng-result').innerText = Math.floor(Math.random() * (max - min + 1)) + min;
     });
+    document.getElementById('clicker-menu-item').addEventListener('click', () => { document.getElementById('clicker-overlay').style.display = 'flex'; dropdownMenu.style.display = 'none'; });
+    document.getElementById('stress-click-btn').addEventListener('click', () => { clickCount++; document.getElementById('click-count-display').innerText = clickCount; });
+    document.getElementById('close-clicker-btn').addEventListener('click', () => document.getElementById('clicker-overlay').style.display = 'none');
+    document.getElementById('emoji-menu-item').addEventListener('click', () => { document.getElementById('emoji-overlay').style.display = 'flex'; dropdownMenu.style.display = 'none'; });
+    document.getElementById('close-emoji-btn').addEventListener('click', () => {
+        isEmojiEnabled = document.getElementById('emoji-toggle-select').value === 'on';
+        smiley.innerText = document.getElementById('emoji-type-select').value;
+        smiley.style.display = isEmojiEnabled ? 'inline-block' : 'none';
+        document.getElementById('emoji-overlay').style.display = 'none';
+    });
+    document.getElementById('close-disclaimer-btn').addEventListener('click', () => document.getElementById('disclaimer-overlay').style.display = 'none');
+    window.addEventListener('click', () => { dropdownMenu.style.display = 'none'; });
+
+    // Avatar Drag Management Mechanics
+    smiley.addEventListener('pointerdown', (e) => {
+        isDraggingSmiley = true; smiley.classList.remove('smiley-pop');
+        offsetPointerX = e.clientX - smiley.offsetLeft; offsetPointerY = e.clientY - smiley.offsetTop;
+        smiley.setPointerCapture(e.pointerId);
+    });
+    smiley.addEventListener('pointermove', (e) => {
+        if (!isDraggingSmiley) return;
+        emojiX = e.clientX - offsetPointerX; emojiY = e.clientY - offsetPointerY;
+        emojiX = Math.max(0, Math.min(emojiX, window.innerWidth - smiley.clientWidth));
+        emojiY = Math.max(0, Math.min(emojiY, window.innerHeight - smiley.clientHeight));
+        smiley.style.left = `${emojiX}px`; smiley.style.top = `${emojiY}px`;
+    });
+    smiley.addEventListener('pointerup', (e) => {
+        if(isDraggingSmiley) { isDraggingSmiley = false; smiley.releasePointerCapture(e.pointerId); smiley.classList.add('smiley-pop'); }
+    });
+    smiley.addEventListener('pointercancel', () => { isDraggingSmiley = false; });
+
+    window.addEventListener('resize', handleResizeMetrics);
+    handleResizeMetrics(); initBackgroundStructures(); requestAnimationFrame(renderEngineLoop);
 </script>
 </body>
 </html>
