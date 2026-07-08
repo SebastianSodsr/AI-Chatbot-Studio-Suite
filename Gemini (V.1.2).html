@@ -74,6 +74,25 @@
             align-items: center;
         }
 
+        #unlock-btn {
+            background: #ffaa00;
+            color: #111;
+            border: none;
+            padding: 4px 8px;
+            font-size: 11px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        #unlock-btn:hover {
+            background: #ffc44d;
+        }
+
         #theme-settings {
             background: var(--input-bg);
             border-bottom: 1px solid var(--border-color);
@@ -286,7 +305,6 @@
             border: none;
             outline: none;
             color: transparent;
-            cursor: default;
             z-index: 99999;
             font-size: 10px;
         }
@@ -383,17 +401,18 @@
             letter-spacing: 4px;
         }
 
-        .glitch-screen-shake {
-            animation: screenShake 0.15s infinite;
+        /* Glitch Shock Transitions */
+        .glitch-active-shake {
+            animation: screenShake 0.1s infinite !important;
         }
 
         @keyframes screenShake {
-            0% { transform: translate(0, 0) skew(0deg); filter: hue-rotate(0deg); }
-            20% { transform: translate(-4px, 3px) skew(-3deg); filter: invert(0.2); }
-            40% { transform: translate(5px, -2px) skew(4deg); clip-path: inset(10% 0 30% 0); }
-            60% { transform: translate(-3px, -5px) skew(-1deg); filter: hue-rotate(90deg) contrast(1.5); }
-            80% { transform: translate(4px, 4px) skew(2deg); clip-path: inset(40% 0 15% 0); }
-            100% { transform: translate(-1px, 2px) skew(0deg); }
+            0% { transform: translate(0, 0) skew(0deg); filter: hue-rotate(0deg) contrast(1); }
+            20% { transform: translate(-5px, 4px) skew(-4deg); filter: invert(0.1) sepia(1) saturate(5) hue-rotate(0deg); }
+            40% { transform: translate(6px, -3px) skew(5deg); clip-path: inset(15% 0 25% 0); }
+            60% { transform: translate(-4px, -6px) skew(-2deg); filter: hue-rotate(180deg) contrast(2); }
+            80% { transform: translate(5px, 5px) skew(3deg); clip-path: inset(35% 0 10% 0); }
+            100% { transform: translate(-2px, 3px) skew(0deg); filter: none; }
         }
 
         #retro-desktop-overlay {
@@ -479,6 +498,24 @@
             font-size: 10px;
             font-weight: bold;
             top: 6px; left: 8px;
+        }
+
+        .win95-report-graphic {
+            width: 32px;
+            height: 32px;
+            background: #ff3333;
+            border: 2px solid #000;
+            position: relative;
+            margin-bottom: 6px;
+            box-shadow: 2px 2px 0px rgba(0,0,0,0.5);
+        }
+        .win95-report-graphic::after {
+            content: '!';
+            position: absolute;
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            top: 2px; left: 12px;
         }
 
         .win95-door-graphic {
@@ -719,6 +756,97 @@
             cursor: pointer;
             user-select: none;
         }
+
+        /* Newspaper Styles */
+        #newspaper-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 999999;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .newspaper-container {
+            background: #f2efe9;
+            color: #111;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            border: 8px double #333;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            font-family: 'Georgia', serif;
+            position: relative;
+        }
+
+        .newspaper-header {
+            text-align: center;
+            border-bottom: 2px solid #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+        }
+
+        .newspaper-header h1 {
+            font-size: 38px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-family: 'Times New Roman', serif;
+        }
+
+        .newspaper-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .newspaper-headline {
+            font-size: 32px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .newspaper-body {
+            font-size: 15px;
+            line-height: 1.6;
+            text-align: justify;
+            column-count: 2;
+            column-gap: 20px;
+        }
+
+        .newspaper-footer {
+            margin-top: 30px;
+            border-top: 1px solid #333;
+            padding-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .newspaper-btn {
+            background: #333;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .newspaper-btn:hover {
+            background: #555;
+        }
+
+        .timer-text {
+            font-size: 13px;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -765,6 +893,10 @@
             <div class="win95-folder-graphic"></div>
             <div class="win95-icon-text">Secret</div>
         </div>
+        <div class="win95-icon" onclick="openReportSystemDialog()">
+            <div class="win95-report-graphic"></div>
+            <div class="win95-icon-text" style="color: #ff9999; font-weight: bold;">Report Error</div>
+        </div>
         <div class="win95-icon" onclick="triggerJumpscareFlashSequence()">
             <div class="win95-icon-graphic" style="border-color: #8a0303;"></div>
             <div class="win95-icon-text" style="color: #ff9999;">Need Help.txt</div>
@@ -773,7 +905,7 @@
 
     <div id="secret-folder-window" class="win95-window" style="display: none; top: 20%; left: 30%;">
         <div class="win95-titlebar">
-            <span>C:\Windows\Desktop\Secret</span>
+            <span>C:\\Windows\\Desktop\\Secret</span>
             <button class="win95-titlebar-btn" onclick="toggleFolderWindow(false)">X</button>
         </div>
         <div class="win95-menu-row"><span>File</span><span>Edit</span><span>View</span></div>
@@ -822,8 +954,8 @@
        |
      .-"-.
     /     \
-   |   X   |
-    \     /
+   | 849206|
+    \\     /
      `-.-`
       ===
       `v`
@@ -834,19 +966,19 @@
             <div id="main-ascii-hallway-canvas" class="ascii-hallway">
                 <button class="invisible-hallway-btn" onclick="revealHiddenDoorsMatrix()"></button>
 +---------------------------------------------------+
-| \   |                                       |   / |
-|  \  |_______________________________________|  /  |
-|   \ |   |                               |   | /   |
-|    \|   |_______________________________|   |/    |
-|     \   |   |                       |   |   /     |
-|      \  |   |_______________________|   |  /      |
-|       \ |   |   |               |   |   | /       |
-|        \|   |   |_______________|   |   |/        |
-|         \   |   |   |       |   |   |   /         |
-|          \  |   |   |_______|   |   |  /          |
-|           \ |   |   |   |   |   |   | /           |
-|            \|   |   |   |___|   |   |/            |
-|             \   |   |   |   |   |   /             |
+| \\   |                                       |   / |
+|  \\  |_______________________________________|  /  |
+|   \\ |   |                               |   | /   |
+|    \\|   |_______________________________|   |/    |
+|     \\   |   |                       |   |   /     |
+|      \\  |   |_______________________|   |  /      |
+|       \\ |   |   |               |   |   | /       |
+|        \\|   |   |_______________|   |   |/        |
+|         \\   |   |   |       |   |   |   /         |
+|          \\  |   |   |_______|   |   |  /          |
+|           \\ |   |   |   |   |   |   | /           |
+|            \\|   |   |   |___|   |   |/            |
+|             \\   |   |   |   |   |   /             |
 +---------------------------------------------------+
                 </div>
         </div>
@@ -859,6 +991,28 @@
 
     <div class="win95-taskbar">
         <button class="win95-start-btn" onclick="returnToNormalRealityState()">Shut Down</button>
+    </div>
+</div>
+
+<div id="newspaper-overlay">
+    <div class="newspaper-container">
+        <div class="newspaper-header">
+            <h1>THE DAILY CHRONICLE</h1>
+            <div class="newspaper-meta">
+                <span>Vol. XCIV No. 241</span>
+                <span>BREAKING NEWS</span>
+                <span id="current-news-date">JULY 2026</span>
+            </div>
+        </div>
+        <div class="newspaper-headline">Finally Rescued</div>
+        <div class="newspaper-body">
+            <p><strong>GLOBAL CODE NETWORKS —</strong> In an unbelievable turn of events, the missing software developer has finally been rescued from deep inside the digital sub-layers of the AI Chatbot application framework.</p>
+            <p>Investigators discovered that the user became completely stranded behind the app's standard front-end environment, locked deep inside archaic desktop loops. By tracking down and utilizing a hidden 6-digit backup authorization passkey embedded within a legacy lightbulb server core filament, outside rescue teams were able to break the loop architecture and successfully sever the trapping algorithms once and for all.</p>
+        </div>
+        <div class="newspaper-footer">
+            <span class="timer-text">Returning to chatbot in <span id="newspaper-countdown">60</span>s...</span>
+            <button class="newspaper-btn" onclick="finishNewspaperRescueRestart()">Skip</button>
+        </div>
     </div>
 </div>
 
@@ -922,6 +1076,7 @@
 
 <div id="chat-container">
     <div id="chat-header">
+        <a id="unlock-btn" href="https://github.com/sebastiansodsr" target="_blank">Unlock full version</a>
         <span id="header-title-text">🌐 AI Assistant</span>
         <div>
             <button id="clear-btn" style="background:#d83b01; color:white; border:none; padding:4px 10px; cursor:pointer;">Clear Chat</button>
@@ -959,10 +1114,11 @@
     
     let lightbulbClickCount = 0;
     const maxBulbClicks = 10;
+    let newspaperTimerId = null;
     
-    // Core End Game Background Track Asset
-    const creditsAudio = new Audio('50 (The Good Ending).mp3');
-    creditsAudio.loop = true;
+    // Core End Game Background Track Asset - Loaded from user upload '52.mp3'
+    const creditsAudio = new Audio('52.mp3');
+    creditsAudio.loop = false; // Runs clean once through to match explicit timeline length
 
     // ASCII State Framing Sets for Lightbulb Click Events
     const bulbFrames = {
@@ -971,11 +1127,11 @@
        |
      .-"-.
     /  x  \\
-   |   X   |
+   | 849206|
     \\  ~  /
-     \`-.-'
+     '-.-'
       ===
-      \`v\`
+      v
         `,
         broken: `
        |
@@ -984,7 +1140,7 @@
     /     \\
    |  x.x  |
     \\     /
-     \`-.-'
+     '-.-'
       ===
     [SHATTERED]
         `
@@ -1030,7 +1186,7 @@
             }
         }
         draw() {
-            ctx.fillStyle = "#0f0";
+            ctx.fillStyle = isCreepyModeActive ? "#ff0000" : "#0f0";
             ctx.font = `${this.fontSize}px monospace`;
             const randChar = this.chars[Math.floor(Math.random() * this.chars.length)];
             ctx.fillText(randChar, this.x, this.y);
@@ -1096,6 +1252,44 @@
     };
     window.closeHallwayViewerWindow = function() { document.getElementById('hallway-viewer-window').style.display = 'none'; };
 
+    window.openReportSystemDialog = function() {
+        let codeInput = prompt("Enter the 6-digit verification system override code:");
+        if (codeInput === null) return;
+        if (codeInput === "849206") {
+            triggerNewspaperRescueSequence();
+        } else {
+            alert("ERROR: Invalid System Passkey. Access Denied.");
+        }
+    };
+
+    function triggerNewspaperRescueSequence() {
+        document.getElementById('retro-desktop-overlay').style.display = 'none';
+        document.getElementById('hallway-viewer-window').style.display = 'none';
+        const newspaperOverlay = document.getElementById('newspaper-overlay');
+        const countdownLabel = document.getElementById('newspaper-countdown');
+        
+        newspaperOverlay.style.display = 'flex';
+        let countdownValue = 60;
+        countdownLabel.innerText = countdownValue;
+
+        if (newspaperTimerId) clearInterval(newspaperTimerId);
+        
+        newspaperTimerId = setInterval(() => {
+            countdownValue--;
+            countdownLabel.innerText = countdownValue;
+            if (countdownValue <= 0) {
+                clearInterval(newspaperTimerId);
+                finishNewspaperRescueRestart();
+            }
+        }, 1000);
+    }
+
+    window.finishNewspaperRescueRestart = function() {
+        if (newspaperTimerId) clearInterval(newspaperTimerId);
+        document.getElementById('newspaper-overlay').style.display = 'none';
+        returnToNormalRealityState();
+    };
+
     window.revealHiddenDoorsMatrix = function() {
         const grid = document.getElementById('doors-grid-view');
         grid.innerHTML = '';
@@ -1146,6 +1340,9 @@
         document.getElementById('credits-cam-overlay').style.display = 'grid';
         document.body.style.backgroundColor = '#000000';
         
+        // Ensure standard full duration tracking reset
+        creditsAudio.currentTime = 0;
+        creditsAudio.volume = 1.0;
         creditsAudio.play().catch(err => console.warn("Audio context playback restriction:", err));
 
         const creditsRoll = document.createElement('div');
@@ -1153,16 +1350,25 @@
         creditsRoll.style.cssText = `
             position: fixed; top: 100%; left: 50%; transform: translateX(-50%); width: 75%; text-align: center;
             font-family: 'Courier New', Courier, monospace; color: #ff3333; z-index: 99999; pointer-events: none;
-            animation: creditsScrollTimeline 28s linear forwards;
+            animation: creditsScrollTimeline 167s linear forwards;
         `;
         creditsRoll.innerHTML = `
-            <h1 style="margin-bottom: 70px; letter-spacing: 4px; font-size: 32px; text-shadow: 0 0 10px #ff0000;">SYSTEM TERMINATED</h1>
-            <p style="margin-bottom: 50px; font-size: 16px;">AI Chatbot Studio Suite<br><br>Created and Programmed by:<br><strong style="color: #ffffff; font-size: 22px; letter-spacing: 2px;">Sodsr</strong></p>
-            <p style="margin-bottom: 40px; font-size: 14px;">[ LEAD SYSTEM ARCHITECT ]<br><span style="color: #aaa;">Sodsr</span></p>
-            <p style="margin-bottom: 40px; font-size: 14px;">[ UI DESKTOP ENGINE EXPERIMENTER ]<br><span style="color: #aaa;">Sodsr</span></p>
-            <p style="margin-bottom: 40px; font-size: 14px;">[ SOUND TRACK COMPOSER ]<br><span style="color: #aaa;">50 (The Good Ending)</span></p>
-            <p style="margin-bottom: 80px; font-size: 14px;">[ SPECIAL THANKS ]<br><span style="color: #aaa;">For testing and pushing beyond the walls...</span></p>
-            <h2 style="font-size: 18px; color: #ffffff; letter-spacing: 1px;">YOU ARE NOW DISCONNECTED.</h2>
+            <h1 style="margin-bottom: 90px; letter-spacing: 4px; font-size: 32px; text-shadow: 0 0 10px #ff0000;">SYSTEM TERMINATED</h1>
+            <p style="margin-bottom: 70px; font-size: 16px;">AI Chatbot Studio Suite<br><br>Created and Programmed by:<br><strong style="color: #ffffff; font-size: 22px; letter-spacing: 2px;">Sodsr</strong></p>
+            <p style="margin-bottom: 60px; font-size: 14px;">[ LEAD SYSTEM ARCHITECT ]<br><span style="color: #aaa;">Sodsr</span></p>
+            <p style="margin-bottom: 60px; font-size: 14px;">[ UI DESKTOP ENGINE EXPERIMENTER ]<br><span style="color: #aaa;">Sodsr</span></p>
+            <p style="margin-bottom: 60px; font-size: 14px;">[ SOUNDTRACK COMPOSER ]<br><span style="color: #aaa;">52 (The Good Ending)</span></p>
+            
+            <br><br>
+            <p style="margin-bottom: 60px; font-size: 13px; color: #888; font-style: italic;">--- Core System Submodules ---</p>
+            <p style="margin-bottom: 60px; font-size: 14px;">[ PARTICLE VECTOR ENGINE ]<br><span style="color: #aaa;">Sodsr</span></p>
+            <p style="margin-bottom: 60px; font-size: 14px;">[ RECURSIVE MAZE ARCHITECT ]<br><span style="color: #aaa;">Sodsr</span></p>
+            <p style="margin-bottom: 60px; font-size: 14px;">[ LIGHTBULB VOID LOGIC LAYER ]<br><span style="color: #aaa;">Sodsr</span></p>
+            
+            <br><br>
+            <p style="margin-bottom: 80px; font-size: 14px;">[ SPECIAL THANKS ]<br><span style="color: #aaa;">For navigating past the disclaimers,<br>discovering the console thresholds,<br>and pushing beyond the structural walls...</span></p>
+            <br><br>
+            <h2 style="font-size: 20px; color: #ffffff; letter-spacing: 1px; text-shadow: 0 0 8px #fff;">YOU ARE NOW SAFELY DISCONNECTED.</h2>
         `;
 
         if (!document.getElementById('credits-animation-styles')) {
@@ -1171,8 +1377,8 @@
             styleSheet.innerText = `
                 @keyframes creditsScrollTimeline {
                     0% { top: 100%; }
-                    90% { top: -30%; opacity: 1; }
-                    100% { top: -100%; opacity: 0; }
+                    90% { top: -20%; opacity: 1; }
+                    100% { top: -140%; opacity: 0; }
                 }
                 @keyframes flickerText {
                     0% { opacity: 0.2; }
@@ -1183,20 +1389,31 @@
         }
         document.body.appendChild(creditsRoll);
 
+        // Track and smoothly fade track during final 10 seconds of 2m 47s execution loop
+        let trackFadeTriggered = false;
+        const checkAudioFadeInterval = setInterval(() => {
+            if (creditsAudio.currentTime >= 157 && !trackFadeTriggered) {
+                trackFadeTriggered = true;
+                let fadeVolumeInterval = setInterval(() => {
+                    if (creditsAudio.volume > 0.05) {
+                        creditsAudio.volume -= 0.05;
+                    } else {
+                        clearInterval(fadeVolumeInterval);
+                        clearInterval(checkAudioFadeInterval);
+                        creditsAudio.pause();
+                        creditsAudio.currentTime = 0;
+                    }
+                }, 200);
+            }
+        }, 500);
+
         creditsRoll.addEventListener('animationend', () => {
             creditsRoll.remove();
+            clearInterval(checkAudioFadeInterval);
             const camOverlay = document.getElementById('credits-cam-overlay');
             if (camOverlay) camOverlay.style.display = 'none';
-            
-            let fadeVolumeInterval = setInterval(() => {
-                if (creditsAudio.volume > 0.05) {
-                    creditsAudio.volume -= 0.05;
-                } else {
-                    clearInterval(fadeVolumeInterval);
-                    creditsAudio.pause();
-                    returnToNormalRealityState();
-                }
-            }, 150);
+            creditsAudio.pause();
+            returnToNormalRealityState();
         });
     }
 
@@ -1221,11 +1438,11 @@
        |
      .-"-.
     /     \\
-   |   X   |
+   | 849206|
     \\     /
-     \`-.-'
+     '-.-'
       ===
-      \`v\`
+      v
                         `;
                         bulbEl.style.opacity = opacityDim;
                     }
@@ -1284,6 +1501,10 @@
     }
 
     window.returnToNormalRealityState = function() {
+        // Halt audio playback if returning to reality early
+        creditsAudio.pause();
+        creditsAudio.currentTime = 0;
+
         isDesktopActive = false; isCreepyModeActive = false; isGameRunning = false;
         lightbulbClickCount = 0;
         const goBackBtn = document.getElementById('bulb-goback-btn');
@@ -1299,29 +1520,46 @@
        |
      .-"-.
     /     \\
-   |   X   |
+   | 849206|
     \\     /
-     \`-.-'
+     '-.-'
       ===
-      \`v\`
+      v
             `;
         }
         document.body.className = '';
-        document.getElementById('chat-container').style.display = 'flex';
+        const chatContainer = document.getElementById('chat-container');
+        chatContainer.className = '';
+        chatContainer.style.display = 'flex';
         document.getElementById('retro-desktop-overlay').style.display = 'none';
         document.getElementById('maze-overlay').style.display = 'none';
         currentBgStyle = 'dots'; isEmojiEnabled = true;
         if(smiley) smiley.style.display = 'inline-block';
         chatBox.innerHTML = '<div class="message ai-message">Hello! How can I help you today?</div>';
+        
+        secretInput.blur();
+        secretInput.value = '';
     };
 
     window.triggerJumpscareFlashSequence = function() {
         document.getElementById('retro-desktop-overlay').style.display = 'none';
         isCreepyModeActive = true; isDesktopActive = false;
-        document.body.classList.add('creepy-active');
+        
+        document.body.className = 'creepy-active glitch-active-shake';
+        const chatContainer = document.getElementById('chat-container');
+        chatContainer.className = 'glitch-active-shake';
+        chatContainer.style.display = 'flex';
+        
         currentBgStyle = 'creepy';
-        document.getElementById('chat-container').style.display = 'flex';
+        initBackgroundStructures();
+        
+        setTimeout(() => {
+            document.body.classList.remove('glitch-active-shake');
+            chatContainer.classList.remove('glitch-active-shake');
+        }, 800);
+
         chatBox.innerHTML = '<div class="message ai-message">You looked behind the walls. There is nowhere to run.</div>';
+        secretInput.focus();
     };
 
     secretInput.addEventListener('keydown', (e) => {
@@ -1330,11 +1568,18 @@
             if (currentBgStyle === 'matrix' && code === 'LOOKAROUND') triggerJumpscareFlashSequence();
             if (currentBgStyle === 'matrix' && code === 'LOG') {
                 isDesktopActive = true; isEmojiEnabled = false; if(smiley) smiley.style.display = 'none';
+                document.body.className = 'desktop-active';
                 document.getElementById('chat-container').style.display = 'none';
                 document.getElementById('retro-desktop-overlay').style.display = 'flex';
+                
+                // Initialize background loops & auto play the uploaded 52.mp3 BGM track
+                creditsAudio.currentTime = 0;
+                creditsAudio.volume = 1.0;
+                creditsAudio.play().catch(err => console.warn("Audio automatic context bypass block:", err));
             }
             if (isCreepyModeActive && code === 'LEAVE') {
                 isCreepyModeActive = false;
+                document.body.className = '';
                 document.getElementById('chat-container').style.display = 'none';
                 document.getElementById('maze-overlay').style.display = 'flex';
                 setTimeout(() => {
@@ -1456,7 +1701,6 @@
         initBackgroundStructures(); document.getElementById('bg-overlay').style.display = 'none';
     });
     
-    // Wire modal setups
     document.getElementById('contact-menu-item').addEventListener('click', () => { document.getElementById('contact-overlay').style.display = 'flex'; dropdownMenu.style.display = 'none'; });
     document.getElementById('close-contact-btn').addEventListener('click', () => document.getElementById('contact-overlay').style.display = 'none');
     document.getElementById('rng-menu-item').addEventListener('click', () => { document.getElementById('rng-overlay').style.display = 'flex'; dropdownMenu.style.display = 'none'; });
@@ -1479,7 +1723,6 @@
     document.getElementById('close-disclaimer-btn').addEventListener('click', () => document.getElementById('disclaimer-overlay').style.display = 'none');
     window.addEventListener('click', () => { dropdownMenu.style.display = 'none'; });
 
-    // Avatar Drag Management Mechanics
     smiley.addEventListener('pointerdown', (e) => {
         isDraggingSmiley = true; smiley.classList.remove('smiley-pop');
         offsetPointerX = e.clientX - smiley.offsetLeft; offsetPointerY = e.clientY - smiley.offsetTop;
