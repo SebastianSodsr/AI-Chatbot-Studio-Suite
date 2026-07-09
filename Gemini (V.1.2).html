@@ -401,7 +401,6 @@
             letter-spacing: 4px;
         }
 
-        /* Glitch Shock Transitions */
         .glitch-active-shake {
             animation: screenShake 0.1s infinite !important;
         }
@@ -757,7 +756,6 @@
             user-select: none;
         }
 
-        /* Newspaper Styles */
         #newspaper-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -824,7 +822,7 @@
             border-top: 1px solid #333;
             padding-top: 15px;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
         }
 
@@ -832,20 +830,16 @@
             background: #333;
             color: #fff;
             border: none;
-            padding: 8px 16px;
+            padding: 8px 24px;
             font-family: Arial, sans-serif;
-            font-size: 13px;
+            font-size: 14px;
             cursor: pointer;
             font-weight: bold;
+            border-radius: 4px;
         }
 
         .newspaper-btn:hover {
             background: #555;
-        }
-
-        .timer-text {
-            font-size: 13px;
-            font-style: italic;
         }
     </style>
 </head>
@@ -893,7 +887,7 @@
             <div class="win95-folder-graphic"></div>
             <div class="win95-icon-text">Secret</div>
         </div>
-        <div class="win95-icon" onclick="openReportSystemDialog()">
+        <div class="win95-icon" onclick="openNewspaperVerificationPrompt()">
             <div class="win95-report-graphic"></div>
             <div class="win95-icon-text" style="color: #ff9999; font-weight: bold;">Report Error</div>
         </div>
@@ -920,7 +914,7 @@
             </div>
             <div class="win95-icon" id="dynamic-random-exe-icon" onclick="openExeChallengeDialog()">
                 <div class="win95-exe-graphic"></div>
-                <div class="win95-icon-text" id="dynamic-exe-name-label">000000.exe</div>
+                <div class="win95-icon-text">000000.exe</div>
             </div>
         </div>
     </div>
@@ -972,15 +966,19 @@
 |    \\|   |_______________________________|   |/    |
 |     \\   |   |                       |   |   /     |
 |      \\  |   |_______________________|   |  /      |
-|       \\ |   |   |               |   |   | /       |
-|        \\|   |   |_______________|   |   |/        |
-|         \\   |   |   |       |   |   |   /         |
-|          \\  |   |   |_______|   |   |  /          |
-|           \\ |   |   |   |   |   |   | /           |
-|            \\|   |   |   |___|   |   |/            |
-|             \\   |   |   |   |   |   /             |
+|       \\ |   |   |               |   |   /       |
+|        \\|   |___|_______________|___|  /        |
+|         \\   |   |               |   | /         |
+|          \\  |   |_______________|   |/          |
+|           \\ |   |       |       |   |           |
+|            \\|   |_______|_______|   |           |
+|             \\   |               |  /            |
+|              \\  |_______________| /             |
+|               \\ |       |       |/              |
+|                \\|_______|_______|               |
+|                 \\   |       |  /                |
 +---------------------------------------------------+
-                </div>
+            </div>
         </div>
     </div>
 
@@ -1010,8 +1008,7 @@
             <p>Investigators discovered that the user became completely stranded behind the app's standard front-end environment, locked deep inside archaic desktop loops. By tracking down and utilizing a hidden 6-digit backup authorization passkey embedded within a legacy lightbulb server core filament, outside rescue teams were able to break the loop architecture and successfully sever the trapping algorithms once and for all.</p>
         </div>
         <div class="newspaper-footer">
-            <span class="timer-text">Returning to chatbot in <span id="newspaper-countdown">60</span>s...</span>
-            <button class="newspaper-btn" onclick="finishNewspaperRescueRestart()">Skip</button>
+            <button class="newspaper-btn" onclick="finishNewspaperRescueRestart()">Skip & Restart</button>
         </div>
     </div>
 </div>
@@ -1099,7 +1096,7 @@
 
 <script type="module">
     import { GoogleGenAI } from 'https://esm.run/@google/genai';
-    const mySecretKey = "AQ.Ab8RN6L5dUzEj1d_yI-DHmkDXNf8fwshUjzBSJCr87_AlTJ0Pw"; 
+    const mySecretKey = "AQ.Ab8RN6L5dUzEj1d_yI-DHmkDXNf8fwshUjzBSJCr87_AlTJ0Pw";
     const ai = new GoogleGenAI({ apiKey: mySecretKey });
     const modelName = 'gemini-2.5-flash';
 
@@ -1111,16 +1108,32 @@
     let isGameRunning = false;
     let isDesktopActive = false;
     let correctDoorIndex = -1;
-    
     let lightbulbClickCount = 0;
     const maxBulbClicks = 10;
-    let newspaperTimerId = null;
-    
-    // Core End Game Background Track Asset - Loaded from user upload '52.mp3'
-    const creditsAudio = new Audio('52.mp3');
-    creditsAudio.loop = false; // Runs clean once through to match explicit timeline length
 
-    // ASCII State Framing Sets for Lightbulb Click Events
+    // AUDIO CONFIGURATION
+    const globalClickSound = new Audio('soundreality-sound-of-mouse-click-4-478760.mp3');
+    globalClickSound.volume = 0.5;
+
+    const logBgmAudio = new Audio('52.mp3');
+    logBgmAudio.loop = true;
+
+    const newspaperBgmAudio = new Audio('50 (The Good Ending).mp3');
+    newspaperBgmAudio.loop = true;
+
+    const creditsAudio = new Audio('53.mp3');
+    creditsAudio.loop = false; 
+
+    // GLOBAL INTERACTIVE CLICK EVENT HOOK
+    window.addEventListener('click', (e) => {
+        const target = e.target;
+        const matchSelector = 'button, select, option, input, a, .win95-icon, .win95-titlebar-btn, .win95-dialog-btn, .win95-door-graphic, .hanging-bulb-art, #floating-smiley';
+        if (target.matches(matchSelector) || target.closest('.win95-icon') || target.closest('#dropdown-menu')) {
+            globalClickSound.currentTime = 0;
+            globalClickSound.play().catch(err => console.log('Audio contextual loop framework deferment.'));
+        }
+    });
+
     const bulbFrames = {
         flicker: `
        |
@@ -1131,7 +1144,7 @@
     \\  ~  /
      '-.-'
       ===
-      v
+      \`v\`
         `,
         broken: `
        |
@@ -1142,12 +1155,17 @@
     \\     /
      '-.-'
       ===
-    [SHATTERED]
+  [SHATTERED]
         `
     };
 
-    let emojiX = 40; let emojiY = 120; let emojiDx = 2.5; let emojiDy = 2.2;
-    let isDraggingSmiley = false; let offsetPointerX = 0; let offsetPointerY = 0;
+    let emojiX = 40;
+    let emojiY = 120;
+    let emojiDx = 2.5;
+    let emojiDy = 2.2;
+    let isDraggingSmiley = false;
+    let offsetPointerX = 0;
+    let offsetPointerY = 0;
 
     const chatBox = document.getElementById('chat-box');
     const userInput = document.getElementById('user-input');
@@ -1165,9 +1183,22 @@
     let stars = [];
 
     class ParticleDot {
-        constructor() { this.x = Math.random()*canvas.width; this.y = Math.random()*canvas.height; this.alpha = Math.random(); this.speed = 0.005; }
-        update() { this.alpha += this.speed; if(this.alpha > 1 || this.alpha < 0) this.speed *= -1; }
-        draw() { ctx.fillStyle = `rgba(0,120,212,${Math.abs(this.alpha)})`; ctx.beginPath(); ctx.arc(this.x, this.y, 2, 0, Math.PI*2); ctx.fill(); }
+        constructor() {
+            this.x = Math.random()*canvas.width;
+            this.y = Math.random()*canvas.height;
+            this.alpha = Math.random();
+            this.speed = 0.005;
+        }
+        update() {
+            this.alpha += this.speed;
+            if(this.alpha > 1 || this.alpha < 0) this.speed *= -1;
+        }
+        draw() {
+            ctx.fillStyle = `rgba(0,120,212,${Math.abs(this.alpha)})`;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, 2, 0, Math.PI*2);
+            ctx.fill();
+        }
     }
 
     class MatrixStream {
@@ -1231,495 +1262,378 @@
         document.getElementById('notepad-text-body').value = content;
         document.getElementById('active-notepad-window').style.display = 'flex';
     };
-    window.closeNotepad = function() { document.getElementById('active-notepad-window').style.display = 'none'; };
-    window.toggleFolderWindow = function(state) { 
-        if(state) document.getElementById('dynamic-exe-name-label').innerText = Math.floor(100000 + Math.random()*900000) + ".exe";
-        document.getElementById('secret-folder-window').style.display = state ? 'flex' : 'none'; 
-    };
-    window.openExeChallengeDialog = function() {
-        document.getElementById('exe-password-input').value = '';
-        document.getElementById('exe-auth-window').style.display = 'flex';
-    };
-    window.closeExeAuthWindow = function() { document.getElementById('exe-auth-window').style.display = 'none'; };
-    window.verifyExePasswordAttempt = function() {
-        if(document.getElementById('exe-password-input').value === 'HALL') {
-            document.getElementById('exe-auth-window').style.display = 'none';
-            document.getElementById('main-ascii-hallway-canvas').style.display = 'block';
-            document.getElementById('doors-grid-view').style.display = 'none';
-            document.getElementById('lightbulb-void-view').style.display = 'none';
-            document.getElementById('hallway-viewer-window').style.display = 'flex';
-        } else { alert("Access Denied"); }
-    };
-    window.closeHallwayViewerWindow = function() { document.getElementById('hallway-viewer-window').style.display = 'none'; };
 
-    window.openReportSystemDialog = function() {
-        let codeInput = prompt("Enter the 6-digit verification system override code:");
-        if (codeInput === null) return;
-        if (codeInput === "849206") {
-            triggerNewspaperRescueSequence();
-        } else {
-            alert("ERROR: Invalid System Passkey. Access Denied.");
+    window.closeNotepad = function() {
+        document.getElementById('active-notepad-window').style.display = 'none';
+    };
+
+    window.toggleFolderWindow = function(show) {
+        document.getElementById('secret-folder-window').style.display = show ? 'flex' : 'none';
+    };
+
+    // REPORT ERROR PASSKEY CHECK -> NEWSPAPER SCENE
+    window.openNewspaperVerificationPrompt = function() {
+        const passKey = prompt("Enter 6-digit report token (Hint: 849206):");
+        if(passKey === "849206") {
+            logBgmAudio.pause();
+            document.getElementById('retro-desktop-overlay').style.display = 'none';
+            document.getElementById('newspaper-overlay').style.display = 'flex';
+            newspaperBgmAudio.currentTime = 0;
+            newspaperBgmAudio.play().catch(e => console.log('BGM playback failed configuration validation: ', e));
+        } else if(passKey !== null) {
+            alert("Security Handshake Refused: Signatures mismatch context validation parameters.");
         }
     };
 
-    function triggerNewspaperRescueSequence() {
-        document.getElementById('retro-desktop-overlay').style.display = 'none';
-        document.getElementById('hallway-viewer-window').style.display = 'none';
-        const newspaperOverlay = document.getElementById('newspaper-overlay');
-        const countdownLabel = document.getElementById('newspaper-countdown');
-        
-        newspaperOverlay.style.display = 'flex';
-        let countdownValue = 60;
-        countdownLabel.innerText = countdownValue;
-
-        if (newspaperTimerId) clearInterval(newspaperTimerId);
-        
-        newspaperTimerId = setInterval(() => {
-            countdownValue--;
-            countdownLabel.innerText = countdownValue;
-            if (countdownValue <= 0) {
-                clearInterval(newspaperTimerId);
-                finishNewspaperRescueRestart();
-            }
-        }, 1000);
-    }
-
     window.finishNewspaperRescueRestart = function() {
-        if (newspaperTimerId) clearInterval(newspaperTimerId);
         document.getElementById('newspaper-overlay').style.display = 'none';
+        newspaperBgmAudio.pause();
+        newspaperBgmAudio.currentTime = 0;
         returnToNormalRealityState();
     };
 
-    window.revealHiddenDoorsMatrix = function() {
-        const grid = document.getElementById('doors-grid-view');
-        grid.innerHTML = '';
-        document.getElementById('main-ascii-hallway-canvas').style.display = 'none';
-        correctDoorIndex = Math.floor(Math.random() * 20) + 1;
-        for(let i=1; i<=20; i++) {
-            const door = document.createElement('div');
-            door.className = 'win95-icon';
-            door.innerHTML = `<div class="win95-door-graphic"></div><div style="color:#000; font-size:11px;">Door ${i}</div>`;
-            door.onclick = () => {
-                if(i === correctDoorIndex) {
-                    grid.style.display = 'none';
-                    document.getElementById('lightbulb-void-view').style.display = 'flex';
-                } else { alert("Locked."); }
-            };
-            grid.appendChild(door);
-        }
-        grid.style.display = 'grid';
+    window.openExeChallengeDialog = function() {
+        document.getElementById('exe-auth-window').style.display = 'flex';
+        document.getElementById('exe-password-input').value = '';
+        document.getElementById('exe-password-input').focus();
     };
+
+    window.closeExeAuthWindow = function() {
+        document.getElementById('exe-auth-window').style.display = 'none';
+    };
+
+    window.verifyExePasswordAttempt = function() {
+        const pass = document.getElementById('exe-password-input').value.trim().toUpperCase();
+        if (pass === 'HALL') {
+            closeExeAuthWindow();
+            document.getElementById('hallway-viewer-window').style.display = 'flex';
+        } else {
+            alert("Access Denied: Invalid cryptographic token signature alignment.");
+        }
+    };
+
+    window.closeHallwayViewerWindow = function() {
+        document.getElementById('hallway-viewer-window').style.display = 'none';
+        closeLightbulbVoidView();
+    };
+
+    window.revealHiddenDoorsMatrix = function() {
+        document.getElementById('main-ascii-hallway-canvas').style.display = 'none';
+        const panel = document.getElementById('doors-grid-view');
+        panel.style.display = 'grid';
+        panel.innerHTML = '';
+        
+        correctDoorIndex = Math.floor(Math.random() * 20);
+        for(let i = 0; i < 20; i++) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'win95-icon';
+            wrapper.style.width = 'auto';
+            wrapper.innerHTML = `
+                <div class="win95-door-graphic"></div>
+                <div class="win95-icon-text" style="color:#000; text-shadow:none; font-weight:bold; margin-top:4px;">Door ${i+1}</div>
+            `;
+            wrapper.onclick = () => {
+                if (i === correctDoorIndex) {
+                    openLightbulbVoidView();
+                } else {
+                    alert(`Door ${i+1} is locked tightly from the internal track metrics structure.`);
+                }
+            };
+            panel.appendChild(wrapper);
+        }
+    };
+
+    function openLightbulbVoidView() {
+        document.getElementById('doors-grid-view').style.display = 'none';
+        document.getElementById('lightbulb-void-view').style.display = 'flex';
+        lightbulbClickCount = 0;
+        const bulb = document.getElementById('interactive-hanging-bulb');
+        bulb.innerText = `
+       |
+       |
+     .-"-.
+    /     \\
+   | 849206|
+    \\     /
+     \`-.-\`
+      ===
+      \`v\`
+        `;
+        bulb.style.textShadow = "0 0 25px rgba(255, 255, 150, 0.75)";
+        bulb.style.color = "#ffffaa";
+    }
+
     window.closeLightbulbVoidView = function() {
         document.getElementById('lightbulb-void-view').style.display = 'none';
         document.getElementById('doors-grid-view').style.display = 'grid';
     };
 
-    function injectCamRecordingLayers() {
-        if (document.getElementById('credits-cam-overlay')) return;
-        const streamContainer = document.createElement('div');
-        streamContainer.id = 'credits-cam-overlay';
-        streamContainer.style.cssText = `
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 99991;
-            display: none; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); gap: 15px; padding: 15px;
-            box-sizing: border-box; background: rgba(0,0,0,0.85);
-        `;
-        const feeds = ['[CAM-01: CHATBOT_CORE]', '[CAM-02: MAZE_GRID]', '[CAM-03: FILAMENT_VOID]', '[CAM-04: DOOR_MATRIX]', '[CAM-05: MEMORY_POOL]', '[CAM-06: USER_TRACKING]'];
-        feeds.forEach(feed => {
-            const block = document.createElement('div');
-            block.style.cssText = 'border: 1px dashed #ff0000; padding: 12px; background: rgba(5,0,0,0.9); font-family: monospace; color: #cc0000; font-size: 11px; line-height: 1.4;';
-            block.innerHTML = `${feed}<br>STATUS: ACTIVE<br>SYS_RECOVERY: FAILED<br><span style="animation: flickerText 0.3s infinite alternate; color: #ff3333; font-weight: bold;">REC ●</span>`;
-            streamContainer.appendChild(block);
-        });
-        document.body.appendChild(streamContainer);
-    }
-
-    function triggerCreditsSequence() {
-        document.getElementById('hallway-viewer-window').style.display = 'none';
-        document.getElementById('retro-desktop-overlay').style.display = 'none';
-        injectCamRecordingLayers();
-        document.getElementById('credits-cam-overlay').style.display = 'grid';
-        document.body.style.backgroundColor = '#000000';
+    document.getElementById('interactive-hanging-bulb').onclick = function() {
+        if(lightbulbClickCount >= maxBulbClicks) return;
+        lightbulbClickCount++;
+        const bulb = this;
         
-        // Ensure standard full duration tracking reset
-        creditsAudio.currentTime = 0;
-        creditsAudio.volume = 1.0;
-        creditsAudio.play().catch(err => console.warn("Audio context playback restriction:", err));
-
-        const creditsRoll = document.createElement('div');
-        creditsRoll.id = 'terminal-credits-roll';
-        creditsRoll.style.cssText = `
-            position: fixed; top: 100%; left: 50%; transform: translateX(-50%); width: 75%; text-align: center;
-            font-family: 'Courier New', Courier, monospace; color: #ff3333; z-index: 99999; pointer-events: none;
-            animation: creditsScrollTimeline 167s linear forwards;
-        `;
-        creditsRoll.innerHTML = `
-            <h1 style="margin-bottom: 90px; letter-spacing: 4px; font-size: 32px; text-shadow: 0 0 10px #ff0000;">SYSTEM TERMINATED</h1>
-            <p style="margin-bottom: 70px; font-size: 16px;">AI Chatbot Studio Suite<br><br>Created and Programmed by:<br><strong style="color: #ffffff; font-size: 22px; letter-spacing: 2px;">Sodsr</strong></p>
-            <p style="margin-bottom: 60px; font-size: 14px;">[ LEAD SYSTEM ARCHITECT ]<br><span style="color: #aaa;">Sodsr</span></p>
-            <p style="margin-bottom: 60px; font-size: 14px;">[ UI DESKTOP ENGINE EXPERIMENTER ]<br><span style="color: #aaa;">Sodsr</span></p>
-            <p style="margin-bottom: 60px; font-size: 14px;">[ SOUNDTRACK COMPOSER ]<br><span style="color: #aaa;">52 (The Good Ending)</span></p>
-            
-            <br><br>
-            <p style="margin-bottom: 60px; font-size: 13px; color: #888; font-style: italic;">--- Core System Submodules ---</p>
-            <p style="margin-bottom: 60px; font-size: 14px;">[ PARTICLE VECTOR ENGINE ]<br><span style="color: #aaa;">Sodsr</span></p>
-            <p style="margin-bottom: 60px; font-size: 14px;">[ RECURSIVE MAZE ARCHITECT ]<br><span style="color: #aaa;">Sodsr</span></p>
-            <p style="margin-bottom: 60px; font-size: 14px;">[ LIGHTBULB VOID LOGIC LAYER ]<br><span style="color: #aaa;">Sodsr</span></p>
-            
-            <br><br>
-            <p style="margin-bottom: 80px; font-size: 14px;">[ SPECIAL THANKS ]<br><span style="color: #aaa;">For navigating past the disclaimers,<br>discovering the console thresholds,<br>and pushing beyond the structural walls...</span></p>
-            <br><br>
-            <h2 style="font-size: 20px; color: #ffffff; letter-spacing: 1px; text-shadow: 0 0 8px #fff;">YOU ARE NOW SAFELY DISCONNECTED.</h2>
-        `;
-
-        if (!document.getElementById('credits-animation-styles')) {
-            const styleSheet = document.createElement("style");
-            styleSheet.id = 'credits-animation-styles';
-            styleSheet.innerText = `
-                @keyframes creditsScrollTimeline {
-                    0% { top: 100%; }
-                    90% { top: -20%; opacity: 1; }
-                    100% { top: -140%; opacity: 0; }
+        if (lightbulbClickCount < maxBulbClicks) {
+            bulb.innerText = bulbFrames.flicker;
+            bulb.style.color = "#ff8888";
+            bulb.style.textShadow = "none";
+            setTimeout(() => {
+                if(lightbulbClickCount < maxBulbClicks) {
+                    bulb.innerText = `
+       |
+       |
+     .-"-.
+    /     \\
+   | 849206|
+    \\     /
+     \`-.-\`
+      ===
+      \`v\`
+                    `;
+                    bulb.style.color = "#ffffaa";
+                    bulb.style.textShadow = "0 0 25px rgba(255, 255, 150, 0.75)";
                 }
-                @keyframes flickerText {
-                    0% { opacity: 0.2; }
-                    100% { opacity: 1; }
-                }
-            `;
-            document.head.appendChild(styleSheet);
+            }, 120);
+        } else {
+            bulb.innerText = bulbFrames.broken;
+            bulb.style.color = "#555555";
+            bulb.style.textShadow = "none";
+            setTimeout(() => {
+                closeHallwayViewerWindow();
+                logBgmAudio.pause();
+                document.getElementById('retro-desktop-overlay').style.display = 'none';
+                triggerCreditsSequence();
+            }, 800);
         }
-        document.body.appendChild(creditsRoll);
+    };
 
-        // Track and smoothly fade track during final 10 seconds of 2m 47s execution loop
-        let trackFadeTriggered = false;
-        const checkAudioFadeInterval = setInterval(() => {
-            if (creditsAudio.currentTime >= 157 && !trackFadeTriggered) {
-                trackFadeTriggered = true;
-                let fadeVolumeInterval = setInterval(() => {
-                    if (creditsAudio.volume > 0.05) {
-                        creditsAudio.volume -= 0.05;
-                    } else {
-                        clearInterval(fadeVolumeInterval);
-                        clearInterval(checkAudioFadeInterval);
+    // MANUAL PERSISTENT TERMINAL CREDITS WITH EXPLICIT EXIT ANCHOR
+    function triggerCreditsSequence() {
+        if(creditsAudio) {
+            creditsAudio.currentTime = 0;
+            creditsAudio.play().catch(e => console.log("Audio pipeline configuration note: ", e));
+        }
+        
+        const rollContainer = document.createElement('div');
+        rollContainer.id = "active-terminal-credits";
+        rollContainer.style.cssText = `
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: #000; z-index: 999999; color: #00ff00;
+            font-family: monospace; padding: 40px; overflow-y: auto;
+            display: flex; flex-direction: column; justify-content: flex-start;
+            align-items: center;
+        `;
+        
+        const lines = [
+            "==================================================",
+            "             CORE CHATBOT TERMINAL TERMINATION    ",
+            "==================================================",
+            "",
+            "STATUS: METRICS EXPERIMENT CONCLUDED",
+            "",
+            "--- ENVIRONMENT DEVELOPMENT TEAM ---",
+            "Lead Software Architect ....... Sebastian S.",
+            "UX/UI System Design Interface .. Sebastian S.",
+            "AI Security Framework Engine ... Gemini Flash Core",
+            "",
+            "--- SOUNDTRACK ASSET CREDIT ---",
+            "Background Audio Stream Track . Track 53 (Ending Cover)",
+            "",
+            "--- SYSTEM RESET SEQUENCER ---",
+            "Analyzing memory leakage loops... None Found.",
+            "Flushing sandbox registry instances... OK.",
+            "Re-aligning primary reality metrics... Processing.",
+            "",
+            "Thank you for discovering the hidden grid.",
+            "Preparing terminal exit protocol sequence..."
+        ];
+
+        let lineIdx = 0;
+        
+        const textWrapper = document.createElement('div');
+        textWrapper.style.cssText = "max-width: 600px; width: 100%; display: flex; flex-direction: column;";
+        
+        const textPre = document.createElement('pre');
+        textPre.style.cssText = "line-height:1.6; font-size:14px; white-space:pre-wrap; margin:0; width:100%;";
+        textWrapper.appendChild(textPre);
+        rollContainer.appendChild(textWrapper);
+        document.body.appendChild(rollContainer);
+
+        const printInterval = setInterval(() => {
+            if(lineIdx < lines.length) {
+                textPre.innerHTML += lines[lineIdx] + "\n";
+                lineIdx++;
+                rollContainer.scrollTop = rollContainer.scrollHeight; 
+            } else {
+                clearInterval(printInterval);
+                
+                // Construct standalone structural escape loop control button
+                const skipBtn = document.createElement('button');
+                skipBtn.innerText = "Skip & Restart";
+                skipBtn.style.cssText = `
+                    margin-top: 30px;
+                    padding: 10px 25px;
+                    font-family: monospace;
+                    font-size: 14px;
+                    font-weight: bold;
+                    color: #000;
+                    background: #00ff00;
+                    border: none;
+                    cursor: pointer;
+                    align-self: center;
+                    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+                    transition: transform 0.1s ease;
+                `;
+                
+                skipBtn.onmousedown = () => skipBtn.style.transform = "scale(0.95)";
+                skipBtn.onmouseup = () => skipBtn.style.transform = "scale(1)";
+                
+                skipBtn.onclick = () => {
+                    rollContainer.remove();
+                    if(creditsAudio) {
                         creditsAudio.pause();
                         creditsAudio.currentTime = 0;
                     }
-                }, 200);
-            }
-        }, 500);
-
-        creditsRoll.addEventListener('animationend', () => {
-            creditsRoll.remove();
-            clearInterval(checkAudioFadeInterval);
-            const camOverlay = document.getElementById('credits-cam-overlay');
-            if (camOverlay) camOverlay.style.display = 'none';
-            creditsAudio.pause();
-            returnToNormalRealityState();
-        });
-    }
-
-    const bulbEl = document.getElementById('interactive-hanging-bulb');
-    if (bulbEl) {
-        bulbEl.addEventListener('click', () => {
-            if (lightbulbClickCount >= maxBulbClicks) return;
-            lightbulbClickCount++;
-            
-            const swingAngle = (Math.random() - 0.5) * (lightbulbClickCount * 6);
-            const scaleFactor = 1 + (lightbulbClickCount * 0.03);
-            const opacityDim = 1 - (lightbulbClickCount * 0.07);
-            
-            bulbEl.style.transform = `scale(${scaleFactor}) rotate(${swingAngle}deg)`;
-            
-            if (Math.random() > 0.4 && lightbulbClickCount < maxBulbClicks) {
-                bulbEl.innerText = bulbFrames.flicker;
-                setTimeout(() => {
-                    if (lightbulbClickCount < maxBulbClicks) {
-                        bulbEl.innerText = `
-       |
-       |
-     .-"-.
-    /     \\
-   | 849206|
-    \\     /
-     '-.-'
-      ===
-      v
-                        `;
-                        bulbEl.style.opacity = opacityDim;
-                    }
-                }, 50);
-            }
-
-            if (lightbulbClickCount >= maxBulbClicks) {
-                bulbEl.innerText = bulbFrames.broken;
-                bulbEl.style.color = "#555555";
-                bulbEl.style.textShadow = "none";
-                bulbEl.style.transform = "scale(1) translateY(10px)";
+                    returnToNormalRealityState();
+                };
                 
-                const goBackBtn = document.getElementById('bulb-goback-btn');
-                if (goBackBtn) goBackBtn.style.display = 'none';
-                
-                setTimeout(() => {
-                    triggerCreditsSequence();
-                }, 1200);
+                textWrapper.appendChild(skipBtn);
             }
-        });
-    }
-
-    async function handleSendMessage() {
-        const query = userInput.value.trim();
-        if (!query) return;
-        appendMessage(query, 'user');
-        userInput.value = '';
-
-        if(isCreepyModeActive) {
-            setTimeout(() => { appendMessage("I see you typing. It won't help.", 'ai'); }, 600);
-            return;
-        }
-
-        chatHistory.push({ role: 'user', parts: [{ text: query }] });
-        const thinkingDiv = document.createElement('div');
-        thinkingDiv.className = 'message ai-message';
-        thinkingDiv.innerText = "Thinking...";
-        chatBox.appendChild(thinkingDiv);
-        chatBox.scrollTop = chatBox.scrollHeight;
-
-        try {
-            const response = await ai.models.generateContent({ model: modelName, contents: chatHistory });
-            const replyText = response.text || "Empty context response.";
-            thinkingDiv.innerText = replyText;
-            chatHistory.push({ role: 'model', parts: [{ text: replyText }] });
-        } catch (error) { thinkingDiv.innerText = "Connection drop error."; }
-        chatBox.scrollTop = chatBox.scrollHeight;
-    }
-
-    function appendMessage(text, sender) {
-        const messageDiv = document.createElement('div');
-        messageDiv.classList.add('message', sender === 'user' ? 'user-message' : 'ai-message');
-        messageDiv.innerText = text;
-        chatBox.appendChild(messageDiv);
-        chatBox.scrollTop = chatBox.scrollHeight;
+        }, 350);
     }
 
     window.returnToNormalRealityState = function() {
-        // Halt audio playback if returning to reality early
-        creditsAudio.pause();
-        creditsAudio.currentTime = 0;
-
-        isDesktopActive = false; isCreepyModeActive = false; isGameRunning = false;
-        lightbulbClickCount = 0;
-        const goBackBtn = document.getElementById('bulb-goback-btn');
-        if (goBackBtn) goBackBtn.style.display = 'inline-block';
-        if (bulbEl) {
-            bulbEl.style.display = 'block';
-            bulbEl.style.color = '#ffffaa';
-            bulbEl.style.textShadow = '0 0 25px rgba(255, 255, 150, 0.75)';
-            bulbEl.style.transform = 'none';
-            bulbEl.style.opacity = '1';
-            bulbEl.innerText = `
-       |
-       |
-     .-"-.
-    /     \\
-   | 849206|
-    \\     /
-     '-.-'
-      ===
-      v
-            `;
-        }
-        document.body.className = '';
-        const chatContainer = document.getElementById('chat-container');
-        chatContainer.className = '';
-        chatContainer.style.display = 'flex';
+        isDesktopActive = false;
+        logBgmAudio.pause();
+        document.body.classList.remove('desktop-active');
         document.getElementById('retro-desktop-overlay').style.display = 'none';
-        document.getElementById('maze-overlay').style.display = 'none';
-        currentBgStyle = 'dots'; isEmojiEnabled = true;
-        if(smiley) smiley.style.display = 'inline-block';
-        chatBox.innerHTML = '<div class="message ai-message">Hello! How can I help you today?</div>';
-        
-        secretInput.blur();
-        secretInput.value = '';
+        closeHallwayViewerWindow();
+        currentBgStyle = 'dots';
+        document.getElementById('bg-style-select').value = 'dots';
+        handleResizeMetrics();
     };
-
-    window.triggerJumpscareFlashSequence = function() {
-        document.getElementById('retro-desktop-overlay').style.display = 'none';
-        isCreepyModeActive = true; isDesktopActive = false;
-        
-        document.body.className = 'creepy-active glitch-active-shake';
-        const chatContainer = document.getElementById('chat-container');
-        chatContainer.className = 'glitch-active-shake';
-        chatContainer.style.display = 'flex';
-        
-        currentBgStyle = 'creepy';
-        initBackgroundStructures();
-        
-        setTimeout(() => {
-            document.body.classList.remove('glitch-active-shake');
-            chatContainer.classList.remove('glitch-active-shake');
-        }, 800);
-
-        chatBox.innerHTML = '<div class="message ai-message">You looked behind the walls. There is nowhere to run.</div>';
-        secretInput.focus();
-    };
-
-    secretInput.addEventListener('keydown', (e) => {
-        if(e.key === 'Enter') {
-            let code = secretInput.value.trim().toUpperCase(); secretInput.value = '';
-            if (currentBgStyle === 'matrix' && code === 'LOOKAROUND') triggerJumpscareFlashSequence();
-            if (currentBgStyle === 'matrix' && code === 'LOG') {
-                isDesktopActive = true; isEmojiEnabled = false; if(smiley) smiley.style.display = 'none';
-                document.body.className = 'desktop-active';
-                document.getElementById('chat-container').style.display = 'none';
-                document.getElementById('retro-desktop-overlay').style.display = 'flex';
-                
-                // Initialize background loops & auto play the uploaded 52.mp3 BGM track
-                creditsAudio.currentTime = 0;
-                creditsAudio.volume = 1.0;
-                creditsAudio.play().catch(err => console.warn("Audio automatic context bypass block:", err));
-            }
-            if (isCreepyModeActive && code === 'LEAVE') {
-                isCreepyModeActive = false;
-                document.body.className = '';
-                document.getElementById('chat-container').style.display = 'none';
-                document.getElementById('maze-overlay').style.display = 'flex';
-                setTimeout(() => {
-                    document.getElementById('maze-intro-screen').style.opacity = '0';
-                    setTimeout(() => document.getElementById('maze-intro-screen').style.display = 'none', 2000);
-                }, 1500);
-                startMazeMiniGameLoop();
-            }
-        }
-    });
 
     function initBackgroundStructures() {
         dots = []; streams = []; stars = [];
-        if(currentBgStyle === 'dots') { 
-            for(let i=0; i<50; i++) dots.push(new ParticleDot()); 
-        } else if (currentBgStyle === 'matrix' || currentBgStyle === 'creepy') {
-            const columnCount = Math.floor(canvas.width / 15);
-            for(let i=0; i<columnCount; i++) streams.push(new MatrixStream(i * 15));
+        if (currentBgStyle === 'dots') {
+            for(let i=0; i<60; i++) dots.push(new ParticleDot());
+        } else if (currentBgStyle === 'matrix') {
+            const cols = Math.floor(canvas.width / 14);
+            for(let i=0; i<cols; i++) streams.push(new MatrixStream(i * 14));
         } else if (currentBgStyle === 'stars') {
             for(let i=0; i<150; i++) stars.push(new CosmicStar());
         }
     }
 
-    let playerPos = { x: 40, y: 40 };
-    function startMazeMiniGameLoop() {
-        isGameRunning = true;
-        playerPos = { x: 40, y: 40 };
-        const mazeCanvas = document.getElementById('maze-canvas');
-        mazeCanvas.width = window.innerWidth;
-        mazeCanvas.height = window.innerHeight;
-        window.addEventListener('keydown', handleMazeInput);
-        runMazeEngineFrame();
-    }
-
-    function handleMazeInput(e) {
-        if (!isGameRunning) return;
-        const step = 15;
-        if (e.key === 'ArrowUp' || e.key === 'w') playerPos.y -= step;
-        if (e.key === 'ArrowDown' || e.key === 's') playerPos.y += step;
-        if (e.key === 'ArrowLeft' || e.key === 'a') playerPos.x -= step;
-        if (e.key === 'ArrowRight' || e.key === 'd') playerPos.x += step;
-        
-        if (playerPos.x > window.innerWidth - 60 && playerPos.y > window.innerHeight - 60) {
-            isGameRunning = false;
-            window.removeEventListener('keydown', handleMazeInput);
-            document.body.classList.add('glitch-screen-shake');
-            document.getElementById('escape-fakeout-overlay').style.display = 'flex';
-            setTimeout(() => {
-                document.body.classList.remove('glitch-screen-shake');
-                document.getElementById('escape-fakeout-overlay').style.display = 'none';
-                returnToNormalRealityState();
-            }, 3000);
-        }
-    }
-
-    function runMazeEngineFrame() {
-        if (!isGameRunning) return;
-        const mazeCanvas = document.getElementById('maze-canvas');
-        const mCtx = mazeCanvas.getContext('2d');
-        mCtx.clearRect(0,0,mazeCanvas.width,mazeCanvas.height);
-        
-        mCtx.strokeStyle = '#300';
-        mCtx.lineWidth = 4;
-        for (let i = 0; i < mazeCanvas.width; i += 80) {
-            mCtx.beginPath(); mCtx.moveTo(i, 0); mCtx.lineTo(i, mazeCanvas.height * 0.8); mCtx.stroke();
-        }
-        
-        mCtx.fillStyle = '#ff0000';
-        mCtx.fillRect(mazeCanvas.width - 60, mazeCanvas.height - 60, 40, 40);
-        mCtx.fillStyle = '#000'; mCtx.font = '10px monospace';
-        mCtx.fillText('EXIT', mazeCanvas.width - 55, mazeCanvas.height - 35);
-
-        mCtx.fillStyle = '#fff';
-        mCtx.shadowBlur = 15; mCtx.shadowColor = '#fff';
-        mCtx.fillRect(playerPos.x, playerPos.y, 16, 16);
-        mCtx.shadowBlur = 0;
-
-        requestAnimationFrame(runMazeEngineFrame);
-    }
-
-    function renderEngineLoop() {
+    function renderBackgroundLoop() {
         if (currentBgStyle === 'solid') {
-            ctx.fillStyle = '#111418'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#111418';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
         } else {
-            ctx.clearRect(0,0,canvas.width,canvas.height);
+            ctx.fillStyle = isCreepyModeActive ? 'rgba(10, 0, 0, 0.2)' : 'rgba(17, 20, 24, 0.2)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
         }
 
         if(currentBgStyle === 'dots') {
             dots.forEach(d => { d.update(); d.draw(); });
-        } else if (currentBgStyle === 'matrix') {
+        } else if(currentBgStyle === 'matrix') {
             streams.forEach(s => { s.update(); s.draw(); });
-        } else if (currentBgStyle === 'creepy') {
-            ctx.fillStyle = 'rgba(5, 0, 0, 0.15)'; ctx.fillRect(0,0,canvas.width,canvas.height);
-            streams.forEach(s => { s.update(); s.draw(); });
-        } else if (currentBgStyle === 'stars') {
-            stars.forEach(st => { st.update(); st.draw(); });
+        } else if(currentBgStyle === 'stars') {
+            stars.forEach(s => { s.update(); s.draw(); });
         }
-
-        if(isEmojiEnabled && !isDraggingSmiley && smiley) {
+        
+        if(isEmojiEnabled && !isDraggingSmiley && !isCreepyModeActive) {
             emojiX += emojiDx; emojiY += emojiDy;
-            if (emojiX <= 0 || emojiX >= window.innerWidth - smiley.clientWidth) emojiDx *= -1;
-            if (emojiY <= 0 || emojiY >= window.innerHeight - smiley.clientHeight) emojiDy *= -1;
+            if(emojiX <= 0 || emojiX >= window.innerWidth - smiley.clientWidth) emojiDx *= -1;
+            if(emojiY <= 0 || emojiY >= window.innerHeight - smiley.clientHeight) emojiDy *= -1;
             smiley.style.left = `${emojiX}px`; smiley.style.top = `${emojiY}px`;
         }
-        requestAnimationFrame(renderEngineLoop);
+
+        requestAnimationFrame(renderBackgroundLoop);
     }
 
-    sendBtn.addEventListener('click', handleSendMessage);
-    userInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSendMessage(); });
-    clearBtn.addEventListener('click', () => { chatHistory = []; chatBox.innerHTML = '<div class="message ai-message">Hello! How can I help you today?</div>'; });
+    async function sendUserMessageToModel() {
+        const text = userInput.value.trim();
+        if(!text) return;
+        
+        appendMessageBubble(text, 'user-message');
+        userInput.value = '';
+        
+        chatHistory.push({ role: 'user', parts: [{ text: text }] });
+        
+        try {
+            const response = await ai.models.generateContent({
+                model: modelName,
+                contents: chatHistory,
+            });
+            const responseText = response.text;
+            appendMessageBubble(responseText, 'ai-message');
+            chatHistory.push({ role: 'model', parts: [{ text: responseText }] });
+        } catch (error) {
+            console.error("API Call Trace: ", error);
+            appendMessageBubble("Network connection handshake timeout. Please verify parameters.", 'ai-message');
+        }
+    }
+
+    function appendMessageBubble(text, className) {
+        const bubble = document.createElement('div');
+        bubble.className = `message ${className}`;
+        bubble.innerText = text;
+        chatBox.appendChild(bubble);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    sendBtn.addEventListener('click', sendUserMessageToModel);
+    userInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') sendUserMessageToModel(); });
     
-    document.getElementById('menu-btn').addEventListener('click', (e) => {
-        e.stopPropagation(); dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+    clearBtn.addEventListener('click', () => {
+        chatBox.innerHTML = '<div class="message ai-message">Conversation logs cleared successfully. Initialized.</div>';
+        chatHistory = [];
     });
-    document.getElementById('bg-menu-item').addEventListener('click', () => { document.getElementById('bg-overlay').style.display = 'flex'; dropdownMenu.style.display = 'none'; });
-    document.getElementById('close-bg-btn').addEventListener('click', () => {
-        currentBgStyle = document.getElementById('bg-style-select').value;
-        document.body.className = currentBgStyle === 'matrix' ? 'matrix-active' : '';
-        initBackgroundStructures(); document.getElementById('bg-overlay').style.display = 'none';
+
+    menuBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dropdownMenu.style.display = dropdownMenu.style.display === 'none' ? 'block' : 'none';
     });
-    
-    document.getElementById('contact-menu-item').addEventListener('click', () => { document.getElementById('contact-overlay').style.display = 'flex'; dropdownMenu.style.display = 'none'; });
+
+    document.getElementById('contact-menu-item').addEventListener('click', () => document.getElementById('contact-overlay').style.display = 'flex');
     document.getElementById('close-contact-btn').addEventListener('click', () => document.getElementById('contact-overlay').style.display = 'none');
-    document.getElementById('rng-menu-item').addEventListener('click', () => { document.getElementById('rng-overlay').style.display = 'flex'; dropdownMenu.style.display = 'none'; });
+    
+    document.getElementById('rng-menu-item').addEventListener('click', () => document.getElementById('rng-overlay').style.display = 'flex');
     document.getElementById('close-rng-btn').addEventListener('click', () => document.getElementById('rng-overlay').style.display = 'none');
     document.getElementById('roll-btn').addEventListener('click', () => {
         const min = parseInt(document.getElementById('rng-min').value) || 1;
         const max = parseInt(document.getElementById('rng-max').value) || 100;
         document.getElementById('rng-result').innerText = Math.floor(Math.random() * (max - min + 1)) + min;
     });
-    document.getElementById('clicker-menu-item').addEventListener('click', () => { document.getElementById('clicker-overlay').style.display = 'flex'; dropdownMenu.style.display = 'none'; });
-    document.getElementById('stress-click-btn').addEventListener('click', () => { clickCount++; document.getElementById('click-count-display').innerText = clickCount; });
+
+    document.getElementById('clicker-menu-item').addEventListener('click', () => document.getElementById('clicker-overlay').style.display = 'flex');
     document.getElementById('close-clicker-btn').addEventListener('click', () => document.getElementById('clicker-overlay').style.display = 'none');
-    document.getElementById('emoji-menu-item').addEventListener('click', () => { document.getElementById('emoji-overlay').style.display = 'flex'; dropdownMenu.style.display = 'none'; });
+    document.getElementById('stress-click-btn').addEventListener('click', () => {
+        clickCount++;
+        document.getElementById('click-count-display').innerText = clickCount;
+    });
+
+    document.getElementById('bg-menu-item').addEventListener('click', () => document.getElementById('bg-overlay').style.display = 'flex');
+    document.getElementById('close-bg-btn').addEventListener('click', () => {
+        currentBgStyle = document.getElementById('bg-style-select').value;
+        if(currentBgStyle === 'matrix') {
+            document.body.classList.add('matrix-active');
+        } else {
+            document.body.classList.remove('matrix-active');
+        }
+        document.getElementById('bg-overlay').style.display = 'none';
+        initBackgroundStructures();
+    });
+
+    document.getElementById('emoji-menu-item').addEventListener('click', () => document.getElementById('emoji-overlay').style.display = 'flex');
     document.getElementById('close-emoji-btn').addEventListener('click', () => {
         isEmojiEnabled = document.getElementById('emoji-toggle-select').value === 'on';
         smiley.innerText = document.getElementById('emoji-type-select').value;
         smiley.style.display = isEmojiEnabled ? 'inline-block' : 'none';
         document.getElementById('emoji-overlay').style.display = 'none';
     });
+
     document.getElementById('close-disclaimer-btn').addEventListener('click', () => document.getElementById('disclaimer-overlay').style.display = 'none');
     window.addEventListener('click', () => { dropdownMenu.style.display = 'none'; });
 
@@ -1740,8 +1654,28 @@
     });
     smiley.addEventListener('pointercancel', () => { isDraggingSmiley = false; });
 
+    // TERMINAL INPUT MONITORING GATE (LAUNCHES RETRO INTERFACE)
+    secretInput.addEventListener('keydown', (e) => {
+        if(e.key === 'Enter') {
+            const cmd = secretInput.value.trim().toUpperCase();
+            secretInput.value = '';
+            if (cmd === 'LOG') {
+                isDesktopActive = true;
+                document.body.classList.add('desktop-active');
+                document.getElementById('retro-desktop-overlay').style.display = 'flex';
+                const randStr = Math.floor(100000 + Math.random() * 900000) + ".exe";
+                document.getElementById('dynamic-random-exe-icon').querySelector('.win95-icon-text').innerText = randStr;
+                
+                logBgmAudio.currentTime = 0;
+                logBgmAudio.play().catch(err => console.log('BGM launch context error: ', err));
+            }
+        }
+    });
+
     window.addEventListener('resize', handleResizeMetrics);
-    handleResizeMetrics(); initBackgroundStructures(); requestAnimationFrame(renderEngineLoop);
+    handleResizeMetrics();
+    renderBackgroundLoop();
 </script>
+
 </body>
 </html>
