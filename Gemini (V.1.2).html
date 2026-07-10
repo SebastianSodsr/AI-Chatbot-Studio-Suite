@@ -195,7 +195,7 @@
             background: var(--border-color) !important;
         }
 
-        #disclaimer-overlay, #contact-overlay, #rng-overlay, #clicker-overlay, #bg-overlay, #emoji-overlay {
+        #disclaimer-overlay, #contact-overlay, #rng-overlay, #clicker-overlay, #bg-overlay, #emoji-overlay, #achievements-overlay {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
@@ -712,14 +712,7 @@
             z-index: 50;
         }
 
-        .doors-panel-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #c0c0c0;
-            padding: 12px;
+        .doors-grid-view-panel {
             display: none;
             grid-template-columns: repeat(5, 1fr);
             gap: 12px;
@@ -727,6 +720,10 @@
             z-index: 100;
             border-top: 2px solid #808080;
             border-left: 2px solid #808080;
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #c0c0c0;
+            padding: 12px;
         }
 
         .lightbulb-void-overlay {
@@ -841,12 +838,60 @@
         .newspaper-btn:hover {
             background: #555;
         }
+
+        /* ACHIEVEMENT STYLING */
+        #achievement-toast {
+            position: fixed;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #111;
+            border: 2px solid #ffaa00;
+            border-radius: 8px;
+            padding: 12px 24px;
+            color: #fff;
+            z-index: 9999999;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+            transition: top 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        #achievement-toast.show {
+            top: 20px;
+        }
+        .achievement-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 13px;
+        }
+        .achievement-status {
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+        }
+        .ach-unlocked { background: #107c41; color: white; }
+        .ach-locked { background: #a80000; color: white; }
     </style>
 </head>
 <body>
 
 <canvas id="bg-canvas"></canvas>
 <input type="text" id="secret-terminal-input" placeholder="???" autocomplete="off" maxlength="30">
+
+<!-- Global Achievement Notification Toast -->
+<div id="achievement-toast">
+    <div style="font-size: 30px;">🏆</div>
+    <div>
+        <div style="font-size: 11px; text-transform: uppercase; color: #ffaa00; font-weight: bold; letter-spacing: 1px;">Achievement Unlocked!</div>
+        <div id="achievement-toast-name" style="font-size: 15px; font-weight: bold;">Achievement Title</div>
+    </div>
+</div>
 
 <div id="flash-jumpscare-overlay"><canvas id="jumpscare-canvas"></canvas></div>
 <div id="escape-fakeout-overlay"><div id="fakeout-text-container">IT'S NOT OVER YET</div></div>
@@ -940,7 +985,7 @@
             <button class="win95-titlebar-btn" onclick="closeHallwayViewerWindow()">X</button>
         </div>
         <div class="win95-window-content" style="background: #fff; display: flex; justify-content: center; align-items: center; overflow: auto; padding: 0;">
-            <div id="doors-grid-view" class="doors-panel-overlay"></div>
+            <div id="doors-grid-view" class="doors-grid-view-panel"></div>
             
             <div id="lightbulb-void-view" class="lightbulb-void-overlay">
                 <div id="interactive-hanging-bulb" class="hanging-bulb-art">
@@ -1071,6 +1116,17 @@
     </div>
 </div>
 
+<!-- Achievements Overview Panel -->
+<div id="achievements-overlay" style="display: none;">
+    <div class="modal-box" style="width: 380px;">
+        <h3>🏆 System Achievements</h3>
+        <div id="achievements-list-container" style="text-align: left; margin-bottom: 20px; background: var(--input-bg); border-radius: 6px; padding: 5px;">
+            <!-- Rendered Dynamically via JS -->
+        </div>
+        <button id="close-achievements-btn" class="modal-btn">Close</button>
+    </div>
+</div>
+
 <div id="chat-container">
     <div id="chat-header">
         <a id="unlock-btn" href="https://github.com/sebastiansodsr" target="_blank">Unlock full version</a>
@@ -1079,6 +1135,7 @@
             <button id="clear-btn" style="background:#d83b01; color:white; border:none; padding:4px 10px; cursor:pointer;">Clear Chat</button>
             <button id="menu-btn" style="background:#2d3540; color:white; border:none; padding:4px 10px; cursor:pointer;">☰</button>
             <div id="dropdown-menu" style="display: none; position: absolute; right: 0; background: #1f242c; border: 1px solid #2d3540; width: 180px; z-index:20005;">
+                <button id="achievements-menu-item" style="width:100%; text-align:left; color:#ffaa00; background:none; padding:10px; border:none; font-weight:bold;">🏆 Achievements</button>
                 <button id="contact-menu-item" style="width:100%; text-align:left; color:white; background:none; padding:10px; border:none;">📬 Contact Info</button>
                 <button id="rng-menu-item" style="width:100%; text-align:left; color:white; background:none; padding:10px; border:none;">🎲 Randomizer</button>
                 <button id="clicker-menu-item" style="width:100%; text-align:left; color:white; background:none; padding:10px; border:none;">💥 Stress Clicker</button>
@@ -1111,6 +1168,49 @@
     let lightbulbClickCount = 0;
     const maxBulbClicks = 10;
 
+    // ACHIEVEMENT INITIAL STATE ARCHITECTURE
+    const achievements = {
+        "STARE": { name: "STARE", desc: "Discover LOOKAROUND parameters.", unlocked: false },
+        "The Developer": { name: "The Developer", desc: "Launch the local desktop sequence terminal.", unlocked: false },
+        "The Ending": { name: "The Ending", desc: "Reach the terminal matrix credit sequence cover.", unlocked: false },
+        "Rescued": { name: "Rescued", desc: "Successfully decouple the trapped database via the newspaper portal.", unlocked: false }
+    };
+
+    function unlockAchievement(id) {
+        if (achievements[id] && !achievements[id].unlocked) {
+            achievements[id].unlocked = true;
+            
+            // Trigger UI Notification Toast
+            const toast = document.getElementById('achievement-toast');
+            document.getElementById('achievement-toast-name').innerText = achievements[id].name;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
+        }
+    }
+
+    function renderAchievementsPanel() {
+        const container = document.getElementById('achievements-list-container');
+        container.innerHTML = '';
+        Object.keys(achievements).forEach(key => {
+            const ach = achievements[key];
+            const row = document.createElement('div');
+            row.className = 'achievement-row';
+            row.innerHTML = `
+                <div>
+                    <div style="font-weight:bold; color: ${ach.unlocked ? '#ffaa00' : '#888'}">${ach.name}</div>
+                    <div style="font-size:11px; color:#aaa;">${ach.desc}</div>
+                </div>
+                <span class="achievement-status ${ach.unlocked ? 'ach-unlocked' : 'ach-locked'}">
+                    ${ach.unlocked ? 'Unlocked' : 'Locked'}
+                </span>
+            `;
+            container.appendChild(row);
+        });
+    }
+
     // AUDIO CONFIGURATION
     const globalClickSound = new Audio('soundreality-sound-of-mouse-click-4-478760.mp3');
     globalClickSound.volume = 0.5;
@@ -1130,7 +1230,7 @@
         const matchSelector = 'button, select, option, input, a, .win95-icon, .win95-titlebar-btn, .win95-dialog-btn, .win95-door-graphic, .hanging-bulb-art, #floating-smiley';
         if (target.matches(matchSelector) || target.closest('.win95-icon') || target.closest('#dropdown-menu')) {
             globalClickSound.currentTime = 0;
-            globalClickSound.play().catch(err => console.log('Audio contextual loop framework deferment.'));
+            globalClickSound.play().catch(err => console.log('Audio tracking framework bounce.'));
         }
     });
 
@@ -1271,15 +1371,18 @@
         document.getElementById('secret-folder-window').style.display = show ? 'flex' : 'none';
     };
 
-    // REPORT ERROR PASSKEY CHECK -> NEWSPAPER SCENE
     window.openNewspaperVerificationPrompt = function() {
         const passKey = prompt("Enter 6-digit report token (Hint: 849206):");
         if(passKey === "849206") {
             logBgmAudio.pause();
             document.getElementById('retro-desktop-overlay').style.display = 'none';
             document.getElementById('newspaper-overlay').style.display = 'flex';
+            
+            // UNLOCK achievement: Rescued
+            unlockAchievement("Rescued");
+
             newspaperBgmAudio.currentTime = 0;
-            newspaperBgmAudio.play().catch(e => console.log('BGM playback failed configuration validation: ', e));
+            newspaperBgmAudio.play().catch(e => console.log('BGM launch check failure: ', e));
         } else if(passKey !== null) {
             alert("Security Handshake Refused: Signatures mismatch context validation parameters.");
         }
@@ -1402,16 +1505,19 @@
                 closeHallwayViewerWindow();
                 logBgmAudio.pause();
                 document.getElementById('retro-desktop-overlay').style.display = 'none';
+                
+                // UNLOCK achievement: The Ending
+                unlockAchievement("The Ending");
+
                 triggerCreditsSequence();
             }, 800);
         }
     };
 
-    // MANUAL PERSISTENT TERMINAL CREDITS WITH EXPLICIT EXIT ANCHOR
     function triggerCreditsSequence() {
         if(creditsAudio) {
             creditsAudio.currentTime = 0;
-            creditsAudio.play().catch(e => console.log("Audio pipeline configuration note: ", e));
+            creditsAudio.play().catch(e => console.log("Audio sequence init error down-stack: ", e));
         }
         
         const rollContainer = document.createElement('div');
@@ -1467,7 +1573,6 @@
             } else {
                 clearInterval(printInterval);
                 
-                // Construct standalone structural escape loop control button
                 const skipBtn = document.createElement('button');
                 skipBtn.innerText = "Skip & Restart";
                 skipBtn.style.cssText = `
@@ -1559,6 +1664,11 @@
         appendMessageBubble(text, 'user-message');
         userInput.value = '';
         
+        // INTERCEPT TRIGGER: LOOKAROUND
+        if (text.toUpperCase() === 'LOOKAROUND') {
+            unlockAchievement("STARE");
+        }
+
         chatHistory.push({ role: 'user', parts: [{ text: text }] });
         
         try {
@@ -1570,7 +1680,7 @@
             appendMessageBubble(responseText, 'ai-message');
             chatHistory.push({ role: 'model', parts: [{ text: responseText }] });
         } catch (error) {
-            console.error("API Call Trace: ", error);
+            console.error("API Error: ", error);
             appendMessageBubble("Network connection handshake timeout. Please verify parameters.", 'ai-message');
         }
     }
@@ -1594,6 +1704,15 @@
     menuBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         dropdownMenu.style.display = dropdownMenu.style.display === 'none' ? 'block' : 'none';
+    });
+
+    // MENU REGISTRATION
+    document.getElementById('achievements-menu-item').addEventListener('click', () => {
+        renderAchievementsPanel();
+        document.getElementById('achievements-overlay').style.display = 'flex';
+    });
+    document.getElementById('close-achievements-btn').addEventListener('click', () => {
+        document.getElementById('achievements-overlay').style.display = 'none';
     });
 
     document.getElementById('contact-menu-item').addEventListener('click', () => document.getElementById('contact-overlay').style.display = 'flex');
@@ -1654,7 +1773,7 @@
     });
     smiley.addEventListener('pointercancel', () => { isDraggingSmiley = false; });
 
-    // TERMINAL INPUT MONITORING GATE (LAUNCHES RETRO INTERFACE)
+    // TERMINAL COMMAND HOOK
     secretInput.addEventListener('keydown', (e) => {
         if(e.key === 'Enter') {
             const cmd = secretInput.value.trim().toUpperCase();
@@ -1666,8 +1785,11 @@
                 const randStr = Math.floor(100000 + Math.random() * 900000) + ".exe";
                 document.getElementById('dynamic-random-exe-icon').querySelector('.win95-icon-text').innerText = randStr;
                 
+                // UNLOCK achievement: The Developer
+                unlockAchievement("The Developer");
+
                 logBgmAudio.currentTime = 0;
-                logBgmAudio.play().catch(err => console.log('BGM launch context error: ', err));
+                logBgmAudio.play().catch(err => console.log('BGM trace initialization mismatch: ', err));
             }
         }
     });
